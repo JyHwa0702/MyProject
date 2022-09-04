@@ -1,8 +1,17 @@
 package hello.hellospring.domain;
 
+import javax.annotation.processing.Generated;
+import javax.persistence.*;
+import javax.persistence.Entity;
+
+@Entity
 public class Member {
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+
 	private String name;
 	
 	
