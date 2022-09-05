@@ -3,6 +3,7 @@ package hello.hellospring;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
+import hello.hellospring.aop.TimeTraceAop;
 import hello.hellospring.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +21,11 @@ public class SpringConfig {
 		this.memberRepository = memberRepository;
 	}
 
-	@Bean
-	public MemberService memberService() {
-		return new MemberService(memberRepository);
-	}
+//	@Bean
+//	public MemberService memberService() {
+//		return new MemberService(memberRepository);
+//	}
+
 
 	
 //	@Bean
