@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tripview 회원가입</title>
+    <link rel="stylesheet" href="css/member/memberForm.css">
+    <script type="text/javascript">
+    </script>
+</head>
+
+<body>
+    <div class="logo">
+        <a th:href="@{/}" title="메인 페이지"><img src="css/Tripview.png" class="image"></a>
+    </div>
+
+    <section class="login-wrap">
+        <form action="/member/new" method="post" th:object="${memberFormDto}">
+	        <H2>회원가입</H2>
+	        <div class="login-id-wrap">
+	            <input type="text" name="acount" th:field="*{name}" id="input-id" placeholder="이름을 입력해주세요"></input>
+				<p class="field-error" th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></p>
+			</div>
+
+			<div class="login-phonenumber">
+				<input type="email" name="phonenumber" th:field="*{email}" id="input-email" placeholder="이메일을 입력해주세요."></input>
+				<p class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+			</div>
+
+			<div class="login-pw-wrap-1">
+				<input type="password" name="password" th:field="*{password}" id="input-pw-1" placeholder="비밀번호를 입력해주세요."></input>
+				<p class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+			</div>
+
+	        <div class="login-nickname">
+	            <input type="text" name="address" th:field="*{address}" id="input-nickname" placeholder="주소를 입력해주세요"></input>
+				<p class="field-error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
+			</div>
+	        
+	        
+	        <div class="signup-btn-wrap"><!--회원가입완료 버튼-->
+	            <button type="submit" id="signup-btn" >회원가입</button>
+	        </div>
+        </form>
+    </section>
+ 
+
+</body>
+</html>
+        
