@@ -3,6 +3,7 @@ package pro.fir.web.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class MemberFormDto {
     @NotBlank(message = "이름은 필수 입력 값입니다.")
     private String name;
