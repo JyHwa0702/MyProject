@@ -78,13 +78,14 @@ H2{
 	margin-top:20px;
 	margin-bottom:0px;
 	padding-bottom:0px;
-	text-align:center;
+	text-align:left;
+    margin-left:45px;
 }
 .field-error{
 
-	margin-left:45px;
+	margin-left:20px;
 	color:red;
-	font-size: xx-small;
+	font-size: smaller;
 }
 #input-pw-1{
 	width: 300px;
@@ -134,7 +135,8 @@ H2{
 	margin-top:20px;
 	margin-bottom:0px;
 	padding-bottom:0px;
-	text-align:center;
+	text-align:left;
+    	margin-left:45px;
 }
 #input-nickname{
 	width: 300px;
@@ -147,13 +149,15 @@ H2{
 	background-color: rgb(233, 233, 233);
 }
 
-.login-phonenumber{
+.login-email{
 	margin-top:20px;
 	margin-bottom:0px;
 	padding-bottom:0px;
-	text-align:center;
+	text-align:left;
+	margin-left:45px;
 }
-#input-phonenumber{
+
+#input-email{
 	width: 300px;
 	height: 32px;
 	font-size: 15px;
