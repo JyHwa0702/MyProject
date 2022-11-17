@@ -1,14 +1,10 @@
 plugins {
+	id 'java'
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'java'
-<<<<<<< HEAD
-=======
-	id 'war'
->>>>>>> origin/master
 }
 
-group = 'project'
+group = 'pro'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -23,11 +19,11 @@ repositories {
 }
 
 dependencies {
-<<<<<<< HEAD
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	compileOnly 'org.projectlombok:lombok'
@@ -35,23 +31,6 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-=======
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.security:spring-security-test'
-	//스프링 시큐리티
-
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-	//뷰 단에서 현재 로그인된 사용자의 정보를 가져오기 위해 추가함.
-
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
-	annotationProcessor 'org.projectlombok:lombok'
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
->>>>>>> origin/master
 }
 
 tasks.named('test') {
