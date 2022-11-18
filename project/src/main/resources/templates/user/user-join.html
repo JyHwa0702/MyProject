@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Tripview 회원가입</title>
-  <link rel="stylesheet" href="/css/member/memberForm.css">
+  <link rel="stylesheet" href="/css/user/user-join.css">
   <!--	<th:block layout:fragment="script">-->
 
   <!--		<script th:inline="javascript">-->
@@ -26,12 +26,12 @@
 </div>
 
 <section class="login-wrap">
-  <form th:action="@{/auth/joinProc}" method="post" th:object="${RequestUserDto}">
+  <form th:action="@{/auth/joinProc}" method="post" th:object="${userDto}">
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
     <H2>회원가입</H2>
     <div class="login-id-wrap">
       <input type="text" name="username" th:field="*{username}" id="input-id" placeholder="이름을 입력해주세요"></input>
-      <p class="field-error" th:errors="*{name}" ></p>
+      <p class="field-error" th:errors="*{username}" ></p>
     </div>
 
     <div class="login-email">
@@ -46,7 +46,7 @@
 
     <div class="login-nickname">
       <input type="text" name="nickname" th:field="*{nickname}" id="input-nickname" placeholder="닉네임을 입력해주세요"></input>
-      <p class="field-error"  th:errors="*{address}"></p>
+      <p class="field-error"  th:errors="*{nickname}"></p>
     </div>
 
     <div class="signup-btn-wrap"><!--회원가입완료 버튼-->

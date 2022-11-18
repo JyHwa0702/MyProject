@@ -9,15 +9,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-public class UserDto {
-
     /* 회원 서비스 요청 RequestDTO 클래스 */
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
     @Setter
     @Builder
-    public static class RequestUserDto{
+    public class UserDto{
         private Long id;
 
         @NotNull(message = "아이디는 필수 입력값입니다.")
@@ -56,4 +54,3 @@ public class UserDto {
 
             }
         }
-    }
