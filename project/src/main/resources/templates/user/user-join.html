@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tripview 회원가입</title>
+  <link rel="stylesheet" href="/css/member/memberForm.css">
+  <!--	<th:block layout:fragment="script">-->
+
+  <!--		<script th:inline="javascript">-->
+  <!--        //회원가입 실패시 에러 메시지 출력-->
+  <!--        $(document).ready(function(){-->
+  <!--            var errorMessage = [[${errorMessage}]];-->
+  <!--            if(errorMessage != null){-->
+  <!--                alert(errorMessage);-->
+  <!--            }-->
+  <!--        });-->
+  <!--    </script>-->
+
+  <!--	</th:block>-->
+</head>
+
+<body>
+<div class="logo">
+  <a th:href="@{/}" title="메인 페이지"><img src="/css/image/Tripview.png" class="image"></a>
+</div>
+
+<section class="login-wrap">
+  <form th:action="@{/auth/joinProc}" method="post" th:object="${RequestUserDto}">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <H2>회원가입</H2>
+    <div class="login-id-wrap">
+      <input type="text" name="username" th:field="*{username}" id="input-id" placeholder="이름을 입력해주세요"></input>
+      <p class="field-error" th:errors="*{name}" ></p>
+    </div>
+
+    <div class="login-email">
+      <input type="email" name="email" th:field="*{email}" id="input-email" placeholder="이메일을 입력해주세요."></input>
+      <p class="field-error" th:errors="*{email}"></p>
+    </div>
+
+    <div class="login-pw-wrap-1">
+      <input type="password" name="password" th:field="*{password}" id="input-pw-1" placeholder="비밀번호를 입력해주세요."></input>
+      <p class="field-error"  th:errors="*{password}"></p>
+    </div>
+
+    <div class="login-nickname">
+      <input type="text" name="nickname" th:field="*{nickname}" id="input-nickname" placeholder="닉네임을 입력해주세요"></input>
+      <p class="field-error"  th:errors="*{address}"></p>
+    </div>
+
+    <div class="signup-btn-wrap"><!--회원가입완료 버튼-->
+      <button type="submit" id="signup-btn" >회원가입</button>
+    </div>
+  </form>
+</section>
+
+
+</body>
+</html>

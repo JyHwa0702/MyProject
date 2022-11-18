@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pro.fir.domain.members.Member;
+import pro.fir.domain.members.MemberRepository;
 import pro.fir.service.MemberService;
 import pro.fir.web.dto.MemberFormDto;
 
@@ -59,7 +60,7 @@ public class MemberController {
             return "member/memberForm";
         }
 
-        return "redirect:/login";
+        return "redirect:/members/login";
     }
 
     @GetMapping("/login")
@@ -72,4 +73,9 @@ public class MemberController {
         model.addAttribute("loginErrorMsg","아이디 또는 비밀번호를 확인해주세요.");
         return "/member/memberLoginForm";
     }
+
+//    @PostMapping("/login")
+//    public String loginOk(Model model){
+//    model.getAttribute("email");
+//    }
 }
