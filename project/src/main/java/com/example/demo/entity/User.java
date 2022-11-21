@@ -1,39 +1,48 @@
 package com.example.demo.entity;
 
-import com.example.demo.role.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
+//Google Oauth2 로그인 한 사용자들에 대한 정보를 저장하기 위한 User테이블
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "USERS")
-public class User {
+public class User extends Time{
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /* 로그인할 회원 아이디 */
-    @Column(nullable = false, length = 20, unique = true)
-    private String username;
+    @Column(nullable = false)
+    private String name;
 
-    @Column(length = 100)
-    private String password;
-
-    @Column(nullable = false,length = 20, unique = true)
-    private String nickname;
-
-    @Column(nullable = false, length = 30, unique = true)
+    @Column(nullable = false)
     private String email;
+
+    @Column
+    private String picture;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
+    @Builder
+    public User(String name, String email, String picture,Role role){
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+        this.role = role;
+    }
+
+    public User update(String name, String picture){
+        this.name = name;
+        this.picture = picture;
+        return this;
+    }
+
+    public String getRoleKey(){
+        return this.role.getKey();
+    }
 }

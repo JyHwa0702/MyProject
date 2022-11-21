@@ -1,7 +1,5 @@
 package com.example.demo.web.validator;
 
-import com.example.demo.dto.UserDto;
-import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

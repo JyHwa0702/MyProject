@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.UserDto;
-import com.example.demo.service.UserService;
 import com.example.demo.web.validator.CheckEmailValidator;
 import com.example.demo.web.validator.CheckNicknameValidator;
 import com.example.demo.web.validator.CheckUsernameValidator;

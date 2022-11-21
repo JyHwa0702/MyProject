@@ -1,6 +1,5 @@
 package com.example.demo.web.validator;
 
-import com.example.demo.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
