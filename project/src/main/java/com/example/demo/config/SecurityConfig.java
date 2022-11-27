@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.config;
 
+import com.example.demo.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,7 @@ public class SecurityConfig {
                 //URL별 권한 관리를 설정하는 옵션의 시작점
                 //authorizeRequests가 선언되어야만 antMatchers옵션을 사용가능.
                 .antMatchers("/","/Savory-gh-pages/**").permitAll()
+                .antMatchers("/user/**").authenticated()
                 //권한 관리 대상을 지정하는 옵션,permit 권한제한 없음.
                 .anyRequest().authenticated()
                 //설정된 값을 이외 나머지 URL들을 나타냄.
@@ -39,11 +41,17 @@ public class SecurityConfig {
 
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
+                    .loginPage("/user/login")
+                    .usernameParameter("id")
+                    .passwordParameter("password")
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/")
+                    .failureUrl("/user/login")
 
                 .and()
-                .logout().logoutSuccessUrl("/")
+                .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
 
                 .and()
                 .oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);

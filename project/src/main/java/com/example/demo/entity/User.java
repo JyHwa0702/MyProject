@@ -16,7 +16,10 @@ public class User extends Time{
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String password;
+
+    @Column(nullable = false)
+    private String username;
 
     @Column(nullable = false)
     private String email;
@@ -29,15 +32,15 @@ public class User extends Time{
     private Role role;
 
     @Builder
-    public User(String name, String email, String picture,Role role){
-        this.name = name;
+    public User(String username, String email, String picture,Role role){
+        this.username = username;
         this.email = email;
         this.picture = picture;
         this.role = role;
     }
 
     public User update(String name, String picture){
-        this.name = name;
+        this.username = username;
         this.picture = picture;
         return this;
     }

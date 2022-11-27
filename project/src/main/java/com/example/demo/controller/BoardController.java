@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.BoardDto;
+import com.example.demo.service.BoardService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class BoardController {
     @PostMapping("/post")
     public String write(BoardDto boardDto){
         boardService.savePost(boardDto);
-        return "redirect : /board/list";
+        return "redirect:/board/list";
     }
 
     //게시물 상세 페이지,{no}로 페이지 넘버를 받는다.
@@ -72,7 +73,7 @@ public class BoardController {
     public String update(BoardDto boardDto){
         boardService.savePost(boardDto);
 
-        return "redirect:/boar/list";
+        return "redirect:/board/list";
     }
 
     //게시물 삭제는 deletePost 메서드를 사용하여 간단하게 삭제할 수 있다.
