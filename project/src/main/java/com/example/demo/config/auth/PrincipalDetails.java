@@ -1,6 +1,8 @@
 package com.example.demo.config.auth;
 
 import com.example.demo.entity.User;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
+@Getter
+@ToString
 public class PrincipalDetails implements UserDetails {
 
     private User user;
 
-    public PrincipalDetails(Optional<User> user){
+    public PrincipalDetails(User user){
         this.user = user;
     }
 

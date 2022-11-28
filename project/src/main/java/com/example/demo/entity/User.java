@@ -7,6 +7,7 @@ import javax.persistence.*;
 //Google Oauth2 로그인 한 사용자들에 대한 정보를 저장하기 위한 User테이블
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "USERS")
 public class User extends Time{
@@ -32,16 +33,15 @@ public class User extends Time{
     private Role role;
 
     @Builder
-    public User(String username, String email, String picture,Role role){
+    public User(String username, String email, String password,Role role){
         this.username = username;
         this.email = email;
-        this.picture = picture;
+        this.password =password;
         this.role = role;
     }
 
     public User update(String name, String picture){
         this.username = username;
-        this.picture = picture;
         return this;
     }
 
