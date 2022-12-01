@@ -1,0 +1,239 @@
+[33mcommit 7e40cfd0577012ca39fe58170a995dfc7c34a9cc[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: JyHwa0702 <livm211@daum.net>
+Date:   Wed Nov 23 23:42:14 2022 +0900
+
+    게시판 만들기 security 정리 중(구글 로그인)
+
+[1mdiff --git a/project/.gitignore b/project/.gitignore[m
+[1mindex c2065bc..035e537 100644[m
+[1m--- a/project/.gitignore[m
+[1m+++ b/project/.gitignore[m
+[36m@@ -35,3 +35,6 @@[m [mout/[m
+ [m
+ ### VS Code ###[m
+ .vscode/[m
+[32m+[m
+[32m+[m[32m### oauth ###[m
+[32m+[m[32m/src/main/resources/application-oauth.properties[m
+[1mdiff --git a/project/build.gradle b/project/build.gradle[m
+[1mindex 7ff82f3..899da57 100644[m
+[1m--- a/project/build.gradle[m
+[1m+++ b/project/build.gradle[m
+[36m@@ -25,6 +25,7 @@[m [mdependencies {[m
+ 	implementation 'org.springframework.boot:spring-boot-starter-validation'[m
+ 	implementation 'org.springframework.boot:spring-boot-starter-web'[m
+ 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'[m
+[32m+[m	[32mimplementation 'org.springframework.boot:spring-boot-starter-oauth2-client'[m
+ 	compileOnly 'org.projectlombok:lombok'[m
+ 	runtimeOnly 'com.h2database:h2'[m
+ 	annotationProcessor 'org.projectlombok:lombok'[m
+[1mdiff --git a/project/src/main/java/com/example/demo/SecurityConfig.java b/project/src/main/java/com/example/demo/SecurityConfig.java[m
+[1mindex 89ca0de..55f35b4 100644[m
+[1m--- a/project/src/main/java/com/example/demo/SecurityConfig.java[m
+[1m+++ b/project/src/main/java/com/example/demo/SecurityConfig.java[m
+[36m@@ -14,6 +14,7 @@[m [mimport org.springframework.security.web.util.matcher.AntPathRequestMatcher;[m
+ @Configuration[m
+ public class SecurityConfig {[m
+ [m
+[32m+[m[32m    private final CustomOAuth2UserService customOAuth2UserService;[m
+     @Bean[m
+     public BCryptPasswordEncoder encodePwd(){[m
+         return new BCryptPasswordEncoder();[m
+[36m@@ -23,32 +24,36 @@[m [mpublic class SecurityConfig {[m
+     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{[m
+         http[m
+                 .csrf().disable()[m
+[31m-//                .headers().frameOptions().disable()[m
+[31m-//                .and()[m
+[32m+[m[32m                .headers().frameOptions().disable()[m
+[32m+[m[32m                //h2-console 화면을 사용하기 위해 해당 옵션들을 disable[m
+[32m+[m
+[32m+[m[32m                .and()[m
+                 .authorizeRequests()[m
+[31m-                .antMatchers("/","/auth/**","/post/search/**").permitAll();[m
+[31m-//                .antMatchers("/api/v1/**").hasRole(Role.[m
+[31m-//                        USER.name())[m
+[31m-//                .anyRequest().authenticated()[m
+[31m-//                .and()[m
+[31m-//                .logout()[m
+[31m-//                .logoutSuccessUrl("/")[m
+[31m-//                .and()[m
+[31m-//                .oauth2Login()[m
+[31m-//                .userInfoEndpoint();[m
+[31m-//                .userService(customOAuth2UserService);[m
+[32m+[m[32m                //URL별 권한 관리를 설정하는 옵션의 시작점[m
+[32m+[m[32m                //authorizeRequests가 선언되어야만 antMatchers옵션을 사용가능.[m
+[32m+[m[32m                .antMatchers("/","/Savory-gh-pages/**").permitAll()[m
+[32m+[m[32m                //권한 관리 대상을 지정하는 옵션,permit 권한제한 없음.[m
+[32m+[m[32m                .anyRequest().authenticated()[m
+[32m+[m[32m                //설정된 값을 이외 나머지 URL들을 나타냄.[m
+[32m+[m[32m                //authenticated() 메서드를 통해서 나머지 URL들은 모두 인증된 사용자에게만 허용[m
+[32m+[m
+[32m+[m[32m                .and()[m
+[32m+[m[32m                .formLogin()[m
+[32m+[m[32m                .loginPage("/login")[m
+[32m+[m[32m                .defaultSuccessUrl("/")[m
+[32m+[m
+[32m+[m[32m                .and()[m
+[32m+[m[32m                .logout().logoutSuccessUrl("/")[m
+[32m+[m
+[32m+[m[32m                .and()[m
+[32m+[m[32m                .oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);[m
+[32m+[m[32m                //OAuth2 로그인 기능에 대한 여러 설정의 진입점.[m
+[32m+[m[32m                //userInfoEndpoint : 로그인이 성공된 이후 사용자 정보를 가져올때 설정담당.[m
+[32m+[m[32m                //userSErvice : 소셜 로그인 성공시 후속조치 진행할 UserService 인터페이스 구현체등록[m
+[32m+[m[32m                //사용자 정보를 가져온 정보를 기반으로 추가적으로 진행하고자 하는 기능들을 명시가능.[m
+[32m+[m
+ [m
+         return http.build();[m
+[31m-//                .formLogin()[m
+[31m-//                .loginPage("/members/login")[m
+[31m-//                .defaultSuccessUrl("/")[m
+[31m-//                .usernameParameter("email")[m
+[31m-//                .failureUrl("/members/login/error")[m
+[31m-//[m
+[31m-//                .and()[m
+[31m-//                .logout()[m
+[31m-//                .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))[m
+[31m-//                .logoutSuccessUrl("/");[m
+ [m
+ [m
+     }[m
+[1mdiff --git a/project/src/main/java/com/example/demo/service/BoardService.java b/project/src/main/java/com/example/demo/service/BoardService.java[m
+[1mindex a49c07b..71375cd 100644[m
+[1m--- a/project/src/main/java/com/example/demo/service/BoardService.java[m
+[1m+++ b/project/src/main/java/com/example/demo/service/BoardService.java[m
+[36m@@ -54,6 +54,74 @@[m [mpublic class BoardService {[m
+     public BoardDto getPost(Long id){[m
+         //Optional : NPE(NullPointerException)방지[m
+         Optional<Board> boardWrapper =boardRepository.findById(id);[m
+[31m-        boardWrapper.get()[m
+[32m+[m[32m        Board board = boardWrapper.get();[m
+[32m+[m
+[32m+[m[32m        BoardDto boardDto = BoardDto.builder()[m
+[32m+[m[32m                .id(board.getId())[m
+[32m+[m[32m                .title(board.getTitle())[m
+[32m+[m[32m                .content(board.getContent())[m
+[32m+[m[32m                .writer(board.getWriter())[m
+[32m+[m[32m                .createdDate(board.getCreatedDate())[m
+[32m+[m[32m                .modifiedDate(board.getModifiedDate())[m
+[32m+[m[32m                .build();[m
+[32m+[m[32m        return boardDto;[m
+[32m+[m[32m    }[m
+[32m+[m[32m    @Transactional[m
+[32m+[m[32m    public Long savePost(BoardDto boardDto) {[m
+[32m+[m[32m        return boardRepository.save(boardDto.toEntity()).getId();[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @Transactional[m
+[32m+[m[32m    public void deletePost(Long id){[m
+[32m+[m[32m        boardRepository.deleteById(id);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    //검색 API[m
+[32m+[m[32m    @Transactional[m
+[32m+[m[32m    public List<BoardDto> searchPosts(String keyword){[m
+[32m+[m[32m        List<Board> boardEntities = boardRepository.findByTitleContaining(keyword);[m
+[32m+[m[32m        List<BoardDto> boardDtoList = new ArrayList<>();[m
+[32m+[m
+[32m+[m[32m        if(boardEntities.isEmpty()){[m
+[32m+[m[32m            return boardDtoList;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        for(Board board : boardEntities){[m
+[32m+[m[32m            boardDtoList.add(this.convertEntityToDto(board));[m
+[32m+[m[32m        }[m
+[32m+[m[32m        return boardDtoList;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    //페이징처리[m
+[32m+[m[32m    @Transactional[m
+[32m+[m[32m    public Long getBoardCount(){[m
+[32m+[m[32m        return boardRepository.count();[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public Integer[] getPageList(Integer curPageNum){[m
+[32m+[m[32m        Integer[] pageList = new Integer[BLOCK_PAGE_NUM_COUNT];[m
+[32m+[m
+[32m+[m[32m        //총 게시글 갯수[m
+[32m+[m[32m        Double postsTotalCount = Double.valueOf(this.getBoardCount());[m
+[32m+[m
+[32m+[m[32m        //총 게시글 기준으로 계산한 마지막 페이지 번호 계산(올림으로 계산)[m
+[32m+[m[32m        Integer totalLastPageNum = (int)(Math.ceil((postsTotalCount/PAGE_POST_COUNT)));[m
+[32m+[m
+[32m+[m[32m        //현재 페이지를 기준으로 블럭의 마지막 페이지 번호계산[m
+[32m+[m[32m        Integer blockLastPageNum = (totalLastPageNum > curPageNum + BLOCK_PAGE_NUM_COUNT)[m
+[32m+[m[32m                ? curPageNum + BLOCK_PAGE_NUM_COUNT[m
+[32m+[m[32m                : totalLastPageNum;[m
+[32m+[m
+[32m+[m[32m        //페이지 시작 번호 조정[m
+[32m+[m[32m        curPageNum = (curPageNum <= 3) ? 1 : curPageNum-2;[m
+[32m+[m
+[32m+[m[32m        //페이지 번호 할당[m
+[32m+[m[32m        for(int val = curPageNum, idx = 0; val <=blockLastPageNum; val++, idx++){[m
+[32m+[m[32m            pageList[idx] = val;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        return pageList;[m
+     }[m
+ }[m
+[41m+[m
+[41m+[m
+[1mdiff --git a/project/src/main/java/com/example/demo/service/CustomOAuth2UserService.java b/project/src/main/java/com/example/demo/service/CustomOAuth2UserService.java[m
+[1mnew file mode 100644[m
+[1mindex 0000000..2907072[m
+[1m--- /dev/null[m
+[1m+++ b/project/src/main/java/com/example/demo/service/CustomOAuth2UserService.java[m
+[36m@@ -0,0 +1,39 @@[m
+[32m+[m[32mpackage com.example.demo.service;[m
+[32m+[m
+[32m+[m[32mimport com.example.demo.repository.UserRepository;[m
+[32m+[m[32mimport lombok.RequiredArgsConstructor;[m
+[32m+[m[32mimport org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;[m
+[32m+[m[32mimport org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;[m
+[32m+[m[32mimport org.springframework.security.oauth2.client.userinfo.OAuth2UserService;[m
+[32m+[m[32mimport org.springframework.security.oauth2.core.OAuth2AuthenticationException;[m
+[32m+[m[32mimport org.springframework.security.oauth2.core.user.OAuth2User;[m
+[32m+[m[32mimport org.springframework.stereotype.Service;[m
+[32m+[m
+[32m+[m[32mimport javax.servlet.http.HttpSession;[m
+[32m+[m[32mimport javax.transaction.Transactional;[m
+[32m+[m
+[32m+[m[32m@RequiredArgsConstructor[m
+[32m+[m[32m@Transactional[m
+[32m+[m[32m@Service[m
+[32m+[m[32mpublic class CustomOAuth2UserService  implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {[m
+[32m+[m
+[32m+[m[32m    private final UserRepository userRepository;[m
+[32m+[m[32m    private final HttpSession httpSession;[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {[m
+[32m+[m
+[32m+[m[32m        OAuth2UserService<OAuth2UserRequest,OAuth2User> delegate = new DefaultOAuth2UserService();[m
+[32m+[m[32m        OAuth2User oAuth2User = delegate.loadUser(userRequest);[m
+[32m+[m
+[32m+[m[32m        //OAuth2 서비스 id (구글 , 카카오, 네이버)[m
+[32m+[m[32m        String registrationId = userRequest.getClientRegistration().getRegistrationId();[m
+[32m+[m
+[32m+[m[32m        //OAuth2 로그인 진행시 키가 되는 필드 값(PK)[m
+[32m+[m[32m        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()[m
+[32m+[m[32m                .getUserInfoEndpoint().getUserNameAttributeName();[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        return null;[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/project/src/main/resources/application.properties b/project/src/main/resources/application.properties[m
+[1mindex dcec381..ef54428 100644[m
+[1m--- a/project/src/main/resources/application.properties[m
+[1m+++ b/project/src/main/resources/application.properties[m
+[36m@@ -11,4 +11,6 @@[m [mspring.jpa.open-in-view=false[m
+ spring.h2.console.enabled=true[m
+ spring.h2.console.path=/h2-console[m
+ [m
+[31m-spring.mvc.hiddenmethod.filter.enabled=true[m
+\ No newline at end of file[m
+[32m+[m[32mspring.mvc.hiddenmethod.filter.enabled=true[m
+[32m+[m
+[32m+[m[32mspring.profiles.include=oauth[m
