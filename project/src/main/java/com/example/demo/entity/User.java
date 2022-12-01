@@ -33,14 +33,15 @@ public class User extends Time{
     private Role role;
 
     @Builder
-    public User(String username, String email, String password,Role role){
+    public User(String username, String email, String password,Role role,String picture){
         this.username = username;
         this.email = email;
         this.password =password;
         this.role = role;
+        this.picture = picture;
     }
 
-    public User update(String name, String picture){
+    public User update(String username, String picture){
         this.username = username;
         return this;
     }

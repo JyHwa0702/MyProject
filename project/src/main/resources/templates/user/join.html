@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Tripview 회원가입</title>
-  <link rel="stylesheet" href="/css/user/user-join.css">
+  <link rel="stylesheet" href="/css/user/join.css">
   <!--	<th:block layout:fragment="script">-->
 
   <!--		<script th:inline="javascript">-->
@@ -26,28 +26,28 @@
 </div>
 
 <section class="login-wrap">
-  <form th:action="@{/auth/joinProc}" method="post" th:object="${userDto}">
+  <form th:action="@{/join}" method="post" >
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
     <H2>회원가입</H2>
     <div class="login-id-wrap">
-      <input type="text" name="username" th:field="*{username}" id="input-id" placeholder="이름을 입력해주세요"></input>
-      <p class="field-error" th:errors="*{username}" ></p>
+      <input type="text" name="username" id="input-id" placeholder="이름을 입력해주세요"></input>
+
     </div>
 
     <div class="login-email">
-      <input type="email" name="email" th:field="*{email}" id="input-email" placeholder="이메일을 입력해주세요."></input>
-      <p class="field-error" th:errors="*{email}"></p>
+      <input type="email" name="email"  id="input-email" placeholder="이메일을 입력해주세요."></input>
+
     </div>
 
     <div class="login-pw-wrap-1">
-      <input type="password" name="password" th:field="*{password}" id="input-pw-1" placeholder="비밀번호를 입력해주세요."></input>
-      <p class="field-error"  th:errors="*{password}"></p>
+      <input type="password" name="password" id="input-pw-1" placeholder="비밀번호를 입력해주세요."></input>
+
     </div>
 
-    <div class="login-nickname">
-      <input type="text" name="nickname" th:field="*{nickname}" id="input-nickname" placeholder="닉네임을 입력해주세요"></input>
-      <p class="field-error"  th:errors="*{nickname}"></p>
-    </div>
+<!--    <div class="login-nickname">-->
+<!--      <input type="text" name="nickname" th:field="*{nickname}" id="input-nickname" placeholder="닉네임을 입력해주세요"></input>-->
+<!--      <p class="field-error"  th:errors="*{nickname}"></p>-->
+<!--    </div>-->
 
     <div class="signup-btn-wrap"><!--회원가입완료 버튼-->
       <button type="submit" id="signup-btn" >회원가입</button>
