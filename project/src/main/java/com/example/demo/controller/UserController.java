@@ -4,7 +4,6 @@ import com.example.demo.config.auth.PrincipalDetails;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -32,16 +31,16 @@ public class UserController {
 
     @GetMapping("/user/join")
     public String joinForm(){
-        log.info("post로그인");
-        return "join";
+        log.info("get회원가임");
+        return "user/join";
     }
 
     @PostMapping("/join")
     public String join(@ModelAttribute User user){
-        user.setRole(Role.USER);
+        user.changeRole(Role.USER);
 
         String encodePwd = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encodePwd);
+        user.changePwd(encodePwd);
 
         userRepository.save(user);
         return "redirect:/user/login";

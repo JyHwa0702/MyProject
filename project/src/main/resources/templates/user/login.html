@@ -11,11 +11,11 @@
 
 <body>
 <div class="logo">
-    <a th:href="@{/}" title="메인 페이지"><img src="css/image/Tripview.png" class="image"></a>
+    <a th:href="@{/}" title="메인 페이지"><img src="../../css/image/Tripview.png" class="image"></a>
 </div>
 
 <section class="login-wrap">
-    <p sec:authentication="principal"></p>
+<!--    <p sec:authentication="principal"></p>-->
     <form method="post" action="/login" sec:authorize="isAnonymous">
 
         <H2>로그인</H2>
@@ -27,17 +27,23 @@
             <input type="password" name="password" id="input-pw"   placeholder="비밀번호를 입력하세요."></input>
         </div>
 
-        <div class="under-login"><!--자동로그인 부분-->
-            <span class="stay-check">
-                <input type="checkbox" id="stay-checkbox"></input>
-                <label for="stay-checkbox" id="stay-text">자동로그인</label>
-            </span>
-        </div>
+<!--        <div class="under-login">&lt;!&ndash;자동로그인 부분&ndash;&gt;-->
+<!--            <span class="stay-check">-->
+<!--                <input type="checkbox" id="stay-checkbox"></input>-->
+<!--                <label for="stay-checkbox" id="stay-text">자동로그인</label>-->
+<!--            </span>-->
+<!--        </div>-->
 
         <div class="idpw-find">
             <a href="findid" title="ID/PW찾기">ID찾기</a> /
             <a href="findpw" title="ID/PW찾기">PW찾기</a>
         </div><br>
+        <div class="login-btn-wrap"><!--로그인 버튼-->
+            <button type="submit" id="login-btn-google">google 로그인</button>
+        </div>
+        <div class="login-btn-wrap"><!--로그인 버튼-->
+            <button type="submit" id="login-btn-kakao">kakao 로그인</button>
+        </div>
 
         <div class="login-btn-wrap"><!--로그인 버튼-->
             <button type="submit" id="login-btn">로그인</button>
@@ -45,7 +51,7 @@
 
     </form>
     <div class="signup-btn-wrap"><!--회원가입 버튼-->
-        <button type="button" id="signup-btn" onclick="location.href='/join'">회원가입</button>
+        <button type="button" id="signup-btn" onclick="location.href='/user/join'">회원가입</button>
     </div>
 
     <div sec:authorize="isAuthenticated()" class="signup-btn-wrap">
@@ -53,8 +59,6 @@
         <button type="button" sec:authorize="hasRole('ROLE_USER')"  onclick="location.href='/manager'">Manager</button>
     </div>
 
-    <br>
-    <button type="button"  onclick="location.href='/form/loginInfo'">로그인 정보</button>
 
 </section>
 

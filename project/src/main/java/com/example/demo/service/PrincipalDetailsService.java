@@ -17,13 +17,13 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Optional<User> byUsername = userRepository.findByUsername(username);
+        Optional<User> byEmail = userRepository.findByEmail(email);
         //optional 변수명 .isempty()하면 비워있으면 true, .isparent()해서 값 있으면 True,
         //.get()하면 해당 변수 들고옴.
-        if(byUsername.isEmpty()){
-            return new PrincipalDetails(byUsername.get());
+        if(byEmail.isEmpty()){
+            return new PrincipalDetails(byEmail.get());
         }
         return null;
     }

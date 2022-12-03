@@ -1,7 +1,8 @@
 <!-- 공통 부분을 따로 구현해서, 다른 HTML파일에서 replace하여 사용. -->
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:float="http://www.w3.org/1999/xhtml" lang="ko">
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,20 +32,25 @@
           <span class="sr-only" th:if="${menu} == 'board'">(current)</span>
         </a>
       </li>
-    </ul>
-    <ul>
-      <li>
         <div sec:authorize="!isAuthenticated()">
+      <li>
         <a class="btn btn-info" th:href="@{/user/login}">로그인</a>
         <a class="btn btn-info" th:href="@{/user/join}">회원가입</a>
+      </li>
         </div>
+      <li>
         <div sec:authorize="isAuthenticated()">
-          <form th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
-            <button class="btn btn-info" type="submit">로그아웃</button>
-          </form>
-          <a class="btn btn-info" th:href="@{/user/info}">개인정보보기</a>
+           <a  class="btn btn-info" th:href="@{/user/info}">회원정보</a>
         </div>
       </li>
+      <li>
+        <div sec:authorize="isAuthenticated()">
+          <form th:action="@{/logout}" method="POST" sec:authorize="isAuthenticated()">
+            <button type="submit" class="btn btn-info" >로그아웃</button>
+          </form>
+        </div>
+      </li>
+
     </ul>
   </div>
 </nav>
