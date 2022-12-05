@@ -29,11 +29,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         this.attributes = attributes;
     }
 
-    @Override
-    public Map<String, Object> getAttributes() {
-        return null;
-    }
-
     /**
      * UserDetails 구현
      * @return 해당 유저의 권한목록 리턴.
@@ -69,38 +64,44 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     //계정 만료여부
     //true : 만료안됨
     //false : 만료됨
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
     //계정 잠김여부
     //true : 잠기지 않음
     //false : 잠김
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-
     //계정 비밀번호 만료 여부
     //true : 만료 안됨
     //false : 만료됨
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
     //계정 활성화 여부
     //true : 활성화됨
     //false : 활성화 안됨
+
     @Override
     public boolean isEnabled() {
         return true;
     }
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
 
     @Override
     public String getName() {
-        return null;
+        String sub = attributes.get("sub").toString();
+        return sub;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.service.CustomOAuth2UserService;
+import com.example.demo.service.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final PrincipalOauth2UserService principalOauth2UserService;
     @Bean
     public BCryptPasswordEncoder encodePwd(){
         return new BCryptPasswordEncoder();
@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/")
                 .failureUrl("/user/login")
                 .userInfoEndpoint()  //로그인 성공 후 사용자정보를 가져온다.
-                .userService(customOAuth2UserService);
+                .userService(principalOauth2UserService);
 
         //OAuth2 로그인 기능에 대한 여러 설정의 진입점.
                 //userInfoEndpoint : 로그인이 성공된 이후 사용자 정보를 가져올때 설정담당.

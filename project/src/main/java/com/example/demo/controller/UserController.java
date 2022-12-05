@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.Principal;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -64,6 +66,7 @@ public class UserController {
         return "admin";
     }
 
+    //!!! OAuth로 로그인시 이방식대로 하면 CastException이 발생한다.
     @GetMapping("/form/loginInfo")
     @ResponseBody
     public String formLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
@@ -76,5 +79,19 @@ public class UserController {
         System.out.println(user1);
 
         return user.toString();
+    }
+
+    @GetMapping("/oauth/loginInfo")
+    @ResponseBody
+    public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        String result = "";
+
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        if(principal.getUser().getProvider() == null){
+            result = result + "Form 로그인 : "+principal;
+        } else {
+            result = result + "OAuth2 로그인 : "+ principal;
+        }
+        return result;
     }
 }

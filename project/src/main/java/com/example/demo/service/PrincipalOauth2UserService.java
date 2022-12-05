@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.config.auth.PrincipalDetails;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
@@ -42,8 +43,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .email(email).username(username).password(password).role(role)
                     .provider(provider).providerId(providerId)
                     .build());
-            userRepository.save(byEmail);
 
+            userRepository.save(byEmail.get());
         }
+        return new PrincipalDetails(byEmail.get(),oAuth2User.getAttributes());
     }
 }

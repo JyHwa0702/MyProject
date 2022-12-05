@@ -46,10 +46,10 @@ public class OAuthAttributes {
     }
 
     public User toEntity(){
-        return User.builder()
+        return User.oauth2Register()
                 .username(username)
                 .email(email)
-                .picture(picture)
+                .password(toEntity().getPassword())
                 .role(Role.GUEST)
                 .build();
     }
