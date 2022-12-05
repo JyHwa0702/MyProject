@@ -1,5 +1,6 @@
 package com.example.demo.config.auth;
 
+import com.example.demo.config.auth.userinfo.OAuth2UserInfo;
 import com.example.demo.entity.User;
 import lombok.Getter;
 import lombok.ToString;
@@ -16,17 +17,18 @@ import java.util.Map;
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user;
-    private Map<String,Object> attributes;
+    private OAuth2UserInfo oAuth2UserInfo;
 
     //UserDetils : Form 로그인시 사용
     public PrincipalDetails(User user){
         this.user = user;
     }
 
-    //OAuth2User : Oauth2 로그인시 사용
-    public PrincipalDetails(User user,Map<String,Object> attributes){
+
+
+    public PrincipalDetails(User user,OAuth2UserInfo oAuth2UserInfo){
         this.user = user;
-        this.attributes = attributes;
+        this.oAuth2UserInfo = oAuth2UserInfo;
     }
 
     /**
@@ -96,12 +98,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     }
     @Override
     public Map<String, Object> getAttributes() {
-        return attributes;
+        return oAuth2UserInfo.getAttributes();
     }
 
     @Override
     public String getName() {
-        String sub = attributes.get("sub").toString();
-        return sub;
+        return oAuth2UserInfo.getProviderId();
     }
 }

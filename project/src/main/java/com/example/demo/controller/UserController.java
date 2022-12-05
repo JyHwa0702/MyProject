@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.auth.PrincipalDetails;
+import com.example.demo.dto.UserDto;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
@@ -38,11 +39,16 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String join(@ModelAttribute User user){
-        user.changeRole(Role.USER);
+    public String join(@ModelAttribute UserDto userDto){
 
-        String encodePwd = bCryptPasswordEncoder.encode(user.getPassword());
-        user.changePwd(encodePwd);
+        String encodePwd = bCryptPasswordEncoder.encode(userDto.getPassword());
+        userDto.setPassword(encodePwd);
+        User user = User.userDetailRegister()
+                .email(userDto.getEmail())
+                .username(userDto.getUsername())
+                .role(Role.USER)
+                .password(encodePwd)
+                .build();
 
         userRepository.save(user);
         return "redirect:/user/login";

@@ -22,7 +22,7 @@ public class PrincipalDetailsService implements UserDetailsService {
         Optional<User> byEmail = userRepository.findByEmail(email);
         //optional 변수명 .isempty()하면 비워있으면 true, .isparent()해서 값 있으면 True,
         //.get()하면 해당 변수 들고옴.
-        if(byEmail.isEmpty()){
+        if(byEmail.isPresent()){
             return new PrincipalDetails(byEmail.get());
         }
         return null;

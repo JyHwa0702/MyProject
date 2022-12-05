@@ -38,18 +38,18 @@
             <a href="findid" title="ID/PW찾기">ID찾기</a> /
             <a href="findpw" title="ID/PW찾기">PW찾기</a>
         </div><br>
-        <div class="login-btn-wrap"><!--로그인 버튼-->
-            <button type="submit" id="login-btn-google" onclick="location.href='/oauth2/authorization/google">google 로그인</button>
+        <div class="login-btn-wrap" id="login-btn-google"><!--로그인 버튼-->
+            <a id="login-google" href="/oauth2/authorization/google">google 로그인</a>
         </div>
-        <div class="login-btn-wrap"><!--로그인 버튼-->
-            <button type="submit" id="login-btn-kakao" onclick="location.href='/oauth2/authorization/kakao">kakao 로그인</button>
+        <div class="login-btn-wrap" id="login-btn-kakao"><!--로그인 버튼-->
+            <a id="login-kakao" href="/oauth2/authorization/kakao">kakao 로그인</a>
         </div>
-
         <div class="login-btn-wrap"><!--로그인 버튼-->
             <button type="submit" id="login-btn">로그인</button>
         </div>
 
     </form>
+
     <div class="signup-btn-wrap"><!--회원가입 버튼-->
         <button type="button" id="signup-btn" onclick="location.href='/user/join'">회원가입</button>
     </div>

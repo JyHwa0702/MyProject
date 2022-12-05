@@ -111,7 +111,8 @@ H2{
 	border:0;
 	border-radius:3px;
 	background-color: black;
-	color: white;
+	margin:auto;
+	margin-top:20px;
 }
 #login-btn-kakao{
 	width:300px;
@@ -120,6 +121,11 @@ H2{
 	border-radius:3px;
 	background-color: yellow;
 	color: black;
+	margin:auto;
+    margin-top:20px;
+}
+#login-google{
+color:white;
 }
 .signup-btn-wrap{ /*회원가입박스*/
 	margin-top:20px;

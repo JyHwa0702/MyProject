@@ -16,10 +16,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final PrincipalOauth2UserService principalOauth2UserService;
-    @Bean
-    public BCryptPasswordEncoder encodePwd(){
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public BCryptPasswordEncoder encodePwd(){
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -60,6 +60,7 @@ public class SecurityConfig {
                 .failureUrl("/user/login")
                 .userInfoEndpoint()  //로그인 성공 후 사용자정보를 가져온다.
                 .userService(principalOauth2UserService);
+
 
         //OAuth2 로그인 기능에 대한 여러 설정의 진입점.
                 //userInfoEndpoint : 로그인이 성공된 이후 사용자 정보를 가져올때 설정담당.
