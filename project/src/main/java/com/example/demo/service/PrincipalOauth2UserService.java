@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,10 +30,14 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest)throws OAuth2AuthenticationException{
+        log.info("start principalOauth2User");
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         OAuth2UserInfo oAuth2UserInfo = null;
         String provider = userRequest.getClientRegistration().getRegistrationId(); //
+
+        log.info(provider.toString());
+
         if (provider.equals("google")){
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
         } else if(provider.equals("kakao")){
@@ -46,11 +51,19 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String password = bCryptPasswordEncoder.encode(uuid);
 
         String email = oAuth2UserInfo.getEmail();
-        Role role = Role.USER;
+        Role role = Role.ROLE_USER;
 
         Optional<User> byEmail = userRepository.findByEmail(email);
 
+//        User user = byEmail.get();
         //DB에 없는 사용자라면 회원가입처리
+//        if(user == null){
+//
+//           user = User.oauth2Register()
+//                    .email(email).username(username).password(password).role(role)
+//                    .provider(provider).providerId(providerId)
+//                    .build();
+
         if(byEmail.isEmpty()){
             byEmail = Optional.ofNullable(User.oauth2Register()
                     .email(email).username(username).password(password).role(role)
@@ -59,6 +72,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
             userRepository.save(byEmail.get());
         }
+        log.info(byEmail.toString());
+
         return new PrincipalDetails(byEmail.get(),oAuth2UserInfo);
     }
 }

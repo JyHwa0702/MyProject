@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.auth.PrincipalDetails;
+import com.example.demo.dto.BoardDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
@@ -11,12 +12,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class UserController {
 
     @GetMapping("/user/join")
     public String joinForm(){
-        log.info("get회원가임");
+        log.info("get회원가입");
         return "user/join";
     }
 
@@ -46,12 +46,24 @@ public class UserController {
         User user = User.userDetailRegister()
                 .email(userDto.getEmail())
                 .username(userDto.getUsername())
-                .role(Role.USER)
+                .role(Role.ROLE_USER)
                 .password(encodePwd)
                 .build();
 
         userRepository.save(user);
         return "redirect:/user/login";
+    }
+
+    @GetMapping("/user/info")
+    public String info(Principal principal, Model model){
+        log.info(principal.toString());
+        String userName = principal.getName();
+        log.info(userName);
+        Optional<User> findByUsername = userRepository.findByUsername(userName);
+        log.info(findByUsername.get().toString());
+
+        model.addAttribute("user",findByUsername);
+        return "user/update";
     }
 
     @GetMapping("/user")

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.BoardDto;
 import com.example.demo.service.BoardService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,8 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("board")
+@RequestMapping("/board")
+@Slf4j
 public class BoardController {
     private BoardService boardService;
 
@@ -22,6 +24,7 @@ public class BoardController {
 
     @GetMapping({"","/list"})
     public String list(Model model, @RequestParam(value = "page",defaultValue = "1")Integer pageNum){
+        log.info("board/list getmapping");
         List<BoardDto> boardList =boardService.getBoardlist(pageNum);
         Integer[] pageList = boardService.getPageList(pageNum);
 
