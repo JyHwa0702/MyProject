@@ -53,7 +53,7 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/user/login";
     }
-
+!
     @GetMapping("/user/info")
     public String info(Principal principal, Model model){
         log.info(principal.toString());
