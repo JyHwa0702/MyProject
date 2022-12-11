@@ -1,15 +1,16 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.auth.PrincipalDetails;
-import com.example.demo.dto.BoardDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class UserController {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
 
     @GetMapping("/user/login")
     public String loginForm(){
@@ -53,18 +55,22 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/user/login";
     }
-!
-    @GetMapping("/user/info")
-    public String info(Principal principal, Model model){
-        log.info(principal.toString());
-        String userName = principal.getName();
-        log.info(userName);
-        Optional<User> findByUsername = userRepository.findByUsername(userName);
-        log.info(findByUsername.get().toString());
+    @GetMapping("/user/updateForm")
+    public String updateForm(Authentication authentication, Model model){
 
-        model.addAttribute("user",findByUsername);
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        User user = userService.getInfoByEmail(principal);
+        model.addAttribute("user",user);
         return "user/update";
     }
+
+    @PostMapping("/user/update")
+    public String update() {
+
+
+        return "redirect:/";
+    }
+
 
     @GetMapping("/user")
     @ResponseBody

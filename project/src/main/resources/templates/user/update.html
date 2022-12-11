@@ -1,52 +1,37 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
-
-<head th:replace="fragments/common :: head('detail')">
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/user/join.css,https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
-    <link href="starter-template.css" rel="stylesheet"/>
-
-    <script type="text/javascript" th:src="@{/js/board.js}"></script>
-
-    <title>detail</title>
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 수정</title>
+    <link rel="stylesheet" href="/css/user/join.css">
 </head>
 
 <body>
+
 <div class="logo">
     <a th:href="@{/}" title="메인 페이지"><img src="../css/image/Tripview.png" class="image"></a>
 </div>
 
 <section class="login-wrap">
-    <form th:action="@{/join}" method="post" >
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <H2>회원가입</H2>
+    <form th:action="@{/update}" method="post" >
+        <H2>회원정보 수정</H2>
         <div class="login-id-wrap">
-            <input type="text" name="username" id="input-id" placeholder="이름을 입력해주세요"></input>
-
-        </div>
-
-        <div class="login-email">
-            <input type="email" name="email"  id="input-email" placeholder="이메일을 입력해주세요."></input>
+            <input type="text" name="username" id="input-id" placeholder="변경할 닉네임을 입력해주세요"></input>
 
         </div>
 
         <div class="login-pw-wrap-1">
-            <input type="password" name="password" id="input-pw-1" placeholder="비밀번호를 입력해주세요."></input>
+            <input type="text" name="password" id="input-pw-1" placeholder="비밀번호를 입력해주세요."></input>
+        </div>
+
+        <div class="login-email">
+            <input type="email" name="email"  id="input-email" th:value="${user.email}"></input>
 
         </div>
 
-        <!--    <div class="login-nickname">-->
-        <!--      <input type="text" name="nickname" th:field="*{nickname}" id="input-nickname" placeholder="닉네임을 입력해주세요"></input>-->
-        <!--      <p class="field-error"  th:errors="*{nickname}"></p>-->
-        <!--    </div>-->
-
-        <div class="signup-btn-wrap"><!--회원가입완료 버튼-->
-            <button type="submit" id="signup-btn" >회원가입</button>
+        <div class="signup-btn-wrap"><!-- 개인정보수정 버튼-->
+            <button type="submit" id="signup-btn" >정보수정완료</button>
         </div>
     </form>
 </section>

@@ -30,7 +30,7 @@ public class User extends Time{
     private Role role;
 
     private String provider; // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
-    private String providerId; // oauth2를 이욯알 경우 아이디값.
+    private String providerId; // oauth2를 이용할 경우 아이디값.
 
     @Builder(builderClassName = "UserDetilRegister",builderMethodName = "userDetailRegister")
     public User(String username, String email, String password,Role role){
