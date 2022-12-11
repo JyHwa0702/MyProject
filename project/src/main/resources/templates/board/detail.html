@@ -48,7 +48,7 @@
 
         <!-- 수정/삭제 -->
         <div>
-            <a th:href="@{'/board/post/edit/' + ${boardDto.id}}">
+            <a th:href="'/board/post/edit/' + ${boardDto.id}">
                 <button class="btn btn-primary">수정</button>
             </a>
             <form id="delete-form" th:action="@{'/board/post/' + ${boardDto.id}}" method="post">

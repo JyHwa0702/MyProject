@@ -50,7 +50,7 @@ public class OAuthAttributes {
                 .username(username)
                 .email(email)
                 .password(toEntity().getPassword())
-                .role(Role.ROLE_GUEST)
+                .role(Role.ROLE_USER)
                 .build();
     }
 }

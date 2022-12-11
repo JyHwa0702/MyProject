@@ -55,20 +55,27 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/user/login";
     }
-    @GetMapping("/user/updateForm")
-    public String updateForm(Authentication authentication, Model model){
-
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        User user = userService.getInfoByEmail(principal);
-        model.addAttribute("user",user);
+//    @GetMapping("/user/updateForm")
+//    public String updateForm(Authentication authentication, Model model){
+//
+//        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+//        User user = userService.getInfoByEmail(principal);
+//        model.addAttribute("user",user);
+//        return "user/update";
+//    }
+    @GetMapping("/user/updateForm/{email}")
+    public String updateForm(@PathVariable String email,Model model){
+        log.info("컨트롤러에서 받는 email "+email);
+        UserDto userDto = userService.getPost(email);
+        model.addAttribute("userDto",userDto);
         return "user/update";
-    }
-
-    @PostMapping("/user/update")
-    public String update() {
 
 
-        return "redirect:/";
+//    @PutMapping("/user/update/{id}")
+//    public String update(@PathVariable User updatedUser) {
+
+
+//        return "redirect:/";
     }
 
 
