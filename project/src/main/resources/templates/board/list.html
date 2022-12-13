@@ -55,7 +55,7 @@
         </div>
 
         <!-- 검색 form -->
-        <form action="/board/search" method="GET">
+        <form th:action="@{/board/search}" method="GET">
             <div>
                 <input name="keyword" type="text" placeholder="검색어를 입력해주세요.">
                 <button class="btn btn-primary">검색하기</button>

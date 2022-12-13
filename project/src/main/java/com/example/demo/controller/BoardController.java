@@ -91,7 +91,7 @@ public class BoardController {
     //keyword를 view로 부터 전달받는다.
     //Service로 부터 받은 boardDtoList를 model로 전달해준다.
 
-    @GetMapping("/board/search")
+    @GetMapping("/search")
     public String search(@RequestParam String keyword,Model model){
         List<BoardDto> boardDtoList = boardService.searchPosts(keyword);
 

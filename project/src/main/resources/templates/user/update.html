@@ -10,26 +10,27 @@
 <body>
 
 <div class="logo">
-    <a th:href="@{/}" title="메인 페이지"><img src="../../css/image/Tripview.png" class="image"></a>
+    <a th:href="@{/}" title="메인 페이지"><img src="../css/image/Tripview.png" class="image"></a>
 </div>
 
 <section class="login-wrap">
-    <form th:action="@{/update}" method="post" >
+    <form th:action="@{/user/update}" method="post" >
+        <input type="hidden" name="_method" value="PUT">
         <H2>회원정보 수정</H2>
         <div class="login-id-wrap">
+            <H4>닉네임</H4>
             <input type="text" name="username" id="input-id" placeholder="변경할 닉네임을 입력해주세요"></input>
-
         </div>
 
-        <div class="login-pw-wrap-1">
-            <input type="text" name="password" id="input-pw-1" placeholder="비밀번호를 입력해주세요."></input>
-        </div>
+<!--        <div class="login-pw-wrap-1">-->
+<!--            <input type="password" name="password" id="input-pw-1" placeholder="비밀번호를 입력해주세요."></input>-->
+<!--        </div>-->
+        <br>
 
         <div class="login-email">
-            <input type="email" name="email"  id="input-email" th:value="${userDto.email}"></input>
-
+            <H4>이메일</H4>
+            <input type="email" name="email"  id="input-email" th:value="${user.email}" readonly></input>
         </div>
-
         <div class="signup-btn-wrap"><!-- 개인정보수정 버튼-->
             <button type="submit" id="signup-btn" >정보수정완료</button>
         </div>
