@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import java.util.List;
 
 //JPA에서는 프록시 생성을 위해 기본 생성자 하나 있어야한다. -> NOargsConㅡ
 //게시판 글 정보들을 모아놓은 Board 테이블
@@ -27,8 +28,16 @@ public class Board extends Time{
     @Column(columnDefinition = "TEXT", nullable = false) //
     private String content;
 
+    @Column(columnDefinition = "integer default 0")
+    private int view;
+
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @OneToMany(mappedBy = "board",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE) //EAGER바로 나오기,REMOVE는 같이 지워지기
+    @OrderBy("id asc") //댓글정렬
+    private List<Comment> comments;
+
 
     //Java 디자인 패턴, 생성 시점에 값을 채워준다.
     @Builder

@@ -5,11 +5,11 @@ import lombok.*;
 
 import javax.persistence.Column;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class BoardDto {
 
     private Long id;
@@ -20,6 +20,9 @@ public class BoardDto {
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private int view;
+    private Long userId;
+    private List<CommentDto> comments;
 
     public Board toEntity(){
         Board board = Board.builder()
@@ -32,14 +35,16 @@ public class BoardDto {
     }
 
     @Builder
-    public BoardDto(Long id, String writer, String title, String content,
-                    LocalDateTime createdDate,LocalDateTime modifiedDate){
-        this.id=id;
-        this.writer=writer;
-        this.title = title;
-        this.content = content;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
+    public BoardDto(Board board){
+        this.id=board.getId();
+        this.writer= board.getWriter();
+        this.title = board.getTitle();
+        this.content = board.getContent();
+        this.createdDate = board.getCreatedDate();
+        this.modifiedDate = board.getModifiedDate();
+        this.view = board.getView();
+        this.userId = board.getUser().getId();
+        this.comments = board.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
 
 
     }

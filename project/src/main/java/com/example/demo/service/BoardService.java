@@ -25,13 +25,16 @@ public class BoardService {
 
     //Entity ->Dto 로 변환
     private BoardDto convertEntityToDto(Board board){
+//        return BoardDto.builder()
+//                .id(board.getId())
+//                .title(board.getTitle())
+//                .content(board.getContent())
+//                .writer(board.getWriter())
+//                .createdDate(board.getCreatedDate())
+//                .modifiedDate(board.getModifiedDate())
+//                .build();
         return BoardDto.builder()
-                .id(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .writer(board.getWriter())
-                .createdDate(board.getCreatedDate())
-                .modifiedDate(board.getModifiedDate())
+                .board(board)
                 .build();
     }
 
@@ -56,13 +59,16 @@ public class BoardService {
         Optional<Board> boardWrapper =boardRepository.findById(id);
         Board board = boardWrapper.get();
 
+//        BoardDto boardDto = BoardDto.builder()
+//                .id(board.getId())
+//                .title(board.getTitle())
+//                .content(board.getContent())
+//                .writer(board.getWriter())
+//                .createdDate(board.getCreatedDate())
+//                .modifiedDate(board.getModifiedDate())
+//                .build();
         BoardDto boardDto = BoardDto.builder()
-                .id(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .writer(board.getWriter())
-                .createdDate(board.getCreatedDate())
-                .modifiedDate(board.getModifiedDate())
+                .board(board)
                 .build();
         return boardDto;
     }

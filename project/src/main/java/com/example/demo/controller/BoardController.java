@@ -1,9 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.auth.PrincipalDetails;
 import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.CommentDto;
+import com.example.demo.entity.User;
 import com.example.demo.service.BoardService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +59,20 @@ public class BoardController {
     //PathVariable 애너테이션 통해서 no받음.
 
     @GetMapping("/post/{no}")
-    public String detail(@PathVariable Long no, Model model){
+    public String detail(@PathVariable Long no, Model model, Authentication authentication){
         BoardDto boardDto = boardService.getPost(no);
+        List<CommentDto> comments = boardDto.getComments();
+
+        /*댓글 관련*/
+        if(comments != null && !comments.isEmpty()){
+            model.addAttribute("comments",comments);
+        }
+        /*사용자 관련*/
+        PrincipalDetails nowUser = (PrincipalDetails) authentication.getPrincipal();
+        User user = nowUser.getUser();
+        if (boardDto.getUserId().equals(user.getId())){
+            model.addAttribute("writter",true);
+        }
 
         model.addAttribute("boardDto",boardDto);
         return "board/detail";

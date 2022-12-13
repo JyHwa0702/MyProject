@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public User getInfoByEmail(PrincipalDetails principalDetails){
         String userEmail = null;
         if(principalDetails.getUser() != null){
@@ -29,6 +31,7 @@ public class UserService {
         return byEmail.get();
     }
 
+    @Transactional
     public void updateUser(UserDto userDto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
