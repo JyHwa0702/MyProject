@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.entity.Board;
+import com.example.demo.entity.User;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ public class BoardDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private int view;
-    private Long userId;
+    private User user;
     private List<CommentDto> comments;
 
     public Board toEntity(){
@@ -30,6 +31,7 @@ public class BoardDto {
                 .writer(writer)
                 .title(title)
                 .content(content)
+                .user(user)
                 .build();
         return board;
     }
@@ -43,7 +45,7 @@ public class BoardDto {
         this.createdDate = board.getCreatedDate();
         this.modifiedDate = board.getModifiedDate();
         this.view = board.getView();
-        this.userId = board.getUser().getId();
+        this.user = board.getUser();
         this.comments = board.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
 
 

@@ -7,7 +7,6 @@ import com.example.demo.entity.User;
 import com.example.demo.service.BoardService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +41,10 @@ public class BoardController {
     //글쓰는 페이지
 
     @GetMapping("/post")
-    public String write(){
+    public String write(Authentication authentication,Model model){
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        Long id = principal.getUser().getId();
+        model.addAttribute("userId",id);
         return "board/write";
     }
 
@@ -50,7 +52,10 @@ public class BoardController {
     //이후에 /list 경로로 리다이렉트 해준다
 
     @PostMapping("/post")
-    public String write(BoardDto boardDto){
+    public String write(BoardDto boardDto,Authentication authentication){//@RequestParam("userId") Long userId
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        User user = principal.getUser();
+        boardDto.setUser(user);
         boardService.savePost(boardDto);
         return "redirect:/board/list";
     }
@@ -70,7 +75,8 @@ public class BoardController {
         /*사용자 관련*/
         PrincipalDetails nowUser = (PrincipalDetails) authentication.getPrincipal();
         User user = nowUser.getUser();
-        if (boardDto.getUserId().equals(user.getId())){
+
+        if (boardDto.getUser().getId().equals(user.getId())){
             model.addAttribute("writter",true);
         }
 

@@ -17,6 +17,7 @@ import java.util.List;
 public class Board extends Time{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "board_id")
     private Long id;
 
     @Column(length = 10,nullable = false)
@@ -31,7 +32,8 @@ public class Board extends Time{
     @Column(columnDefinition = "integer default 0")
     private int view;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "board",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE) //EAGER바로 나오기,REMOVE는 같이 지워지기

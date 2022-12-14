@@ -24,7 +24,8 @@ public class BoardService {
     private static final int PAGE_POST_COUNT = 4; // 한 페이지에 존재하는 게시글 수
 
     //Entity ->Dto 로 변환
-    private BoardDto convertEntityToDto(Board board){
+
+    private BoardDto convertEntityToDto(Board board) {
 //        return BoardDto.builder()
 //                .id(board.getId())
 //                .title(board.getTitle())
@@ -74,6 +75,7 @@ public class BoardService {
     }
     @Transactional
     public Long savePost(BoardDto boardDto) {
+
         return boardRepository.save(boardDto.toEntity()).getId();
     }
 
