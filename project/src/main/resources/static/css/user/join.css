@@ -83,7 +83,7 @@ H2{
 }
 .field-error{
 
-	margin-left:20px;
+	margin-left:25px;
 	color:red;
 	font-size: smaller;
 }
@@ -148,6 +148,15 @@ H2{
 	padding-left: 10px;
 	background-color: rgb(233, 233, 233);
 }
+#duplicate-username{
+width : 80px;
+height : 32px;
+font-size: 15px;
+border:0;
+border-radius:15px;
+outline : none;
+background-color : skyblue;
+}
 
 .login-email{
 	margin-top:20px;
@@ -181,5 +190,9 @@ H2{
 	border-radius:3px;
 	background-color: #0080ff;
 	color: white;	
+}
+.fieldError{
+    color:red;
+    font-size:smaller
 }
 

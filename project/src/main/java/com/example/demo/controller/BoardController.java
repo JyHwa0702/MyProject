@@ -96,7 +96,12 @@ public class BoardController {
 
     //PutMapping을 통해서 게시물 수정부분 적용
     @PutMapping("/post/edit/{no}")
-    public String update(BoardDto boardDto){
+    public String update(BoardDto boardDto,Authentication authentication){
+
+            PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+            User user = principal.getUser();
+            boardDto.setUser(user);
+
         boardService.savePost(boardDto);
 
         return "redirect:/board/list";

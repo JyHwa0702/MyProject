@@ -6,53 +6,74 @@ import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
+import com.example.demo.validator.UserDtoValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.util.Optional;
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
+
+    private final UserDtoValidator userDtoValidator;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserService userService;
 
     @GetMapping("/user/login")
     public String loginForm(){
+
         log.info("get로그인");
         return "user/login";
 
     }
 
     @GetMapping("/user/join")
-    public String joinForm(){
+    public String joinForm(Model model){
+        model.addAttribute("userDto",new UserDto());
         log.info("get회원가입");
         return "user/join";
     }
 
     @PostMapping("/join")
-    public String join(@ModelAttribute UserDto userDto){
+    public String join(@Valid UserDto userDto, BindingResult bindingResult, Model model){
 
-        String encodePwd = bCryptPasswordEncoder.encode(userDto.getPassword());
-        userDto.setPassword(encodePwd);
-        User user = User.userDetailRegister()
-                .email(userDto.getEmail())
-                .username(userDto.getUsername())
-                .role(Role.ROLE_USER)
-                .password(encodePwd)
-                .build();
+        //유저 양식 검사
+        if (bindingResult.hasErrors()){
+            return "user/join";
+        }
 
-        userRepository.save(user);
+        //중복검사
+        userDtoValidator.validate(userDto,bindingResult);
+        if (bindingResult.hasErrors()){
+            return "user/join";
+        }
+
+        try{
+            userService.saveUser(userDto);
+//            String encodePwd = bCryptPasswordEncoder.encode(userDto.getPassword());
+//            userDto.setPassword(encodePwd);
+//            User user = User.userDetailRegister()
+//                    .email(userDto.getEmail())
+//                    .username(userDto.getUsername())
+//                    .role(Role.ROLE_USER)
+//                    .password(encodePwd)
+//                    .build();
+//
+//            userRepository.save(user);
+        } catch (IllegalStateException e){
+            model.addAttribute("errorMessage",e.getMessage());
+            return "user/join";
+        }
         return "redirect:/user/login";
     }
     @GetMapping("/user/update")
