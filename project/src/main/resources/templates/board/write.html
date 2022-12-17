@@ -14,7 +14,6 @@
             crossorigin="anonymous"
     />
     <link href="starter-template.css" rel="stylesheet" />
-
     <title>게시판입니다.</title>
 </head>
 
@@ -26,11 +25,12 @@
         <h1>게시글 등록</h1>
     </div>
     <div class="starter-template">
-        <form class="form-horizontal" th:action="@{/board/post}" method="post">
+        <form class="form-horizontal" th:action="@{/board/post}" th:object="${boardDto}" method="post">
             <div class="form-group">
                 <label style="float: left" for="title" class="col-sm-2 control-label">제목</label>
                 <div class="col-sm-10" style="margin-top: 10px;">
-                    <input type="title" class="form-control" id="title" name="title" placeholder="제목"/>
+                    <input type="title" class="form-control" id="title" name="title" th:field="*{title}" placeholder="제목"/>
+                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="fieldError">Incorrect data</p>
                 </div>
             </div>
 
@@ -44,7 +44,8 @@
             <div class="form-group">
                 <label style="float: left" for="content" class="col-sm-2 control-label">내용</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" id="content" name="content" placeholder="내용을 입력해 주세요."></textarea>
+                    <textarea class="form-control" id="content" name="content" th:field="*{content}" placeholder="내용을 입력해 주세요."></textarea>
+                    <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="fieldError">Incorrect data</p>
                 </div>
             </div>
 
@@ -63,3 +64,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 </html>
+

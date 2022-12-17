@@ -7,12 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
     <link href="starter-template.css" rel="stylesheet"/>
 
     <script type="text/javascript" th:src="@{/js/board.js}"></script>
 
     <title>detail</title>
+
 </head>
 
 <body>
@@ -20,17 +22,21 @@
 
 <main role="main" class="container">
     <div class="starter-template">
-        <form role="update-form" th:action="@{'/board/post/edit/' + ${boardDto.id}}" method="post">
+        <form role="update-form" th:action="@{'/board/post/edit/' + ${boardDto.id}}" th:object="${boardDto}" method="post">
             <input type="hidden" name="_method" value="put"/>
             <input type="hidden" name="id" th:value="${boardDto.id}"/>
 
-            제목 : <input type="text" name="title" th:value="${boardDto.title}"> <br>
-            작성자 : <input type="text" name="writer" th:value="${boardDto.writer}" readonly> <br>
-            <textarea name="content" th:text="${boardDto.content}"></textarea><br>
+            제목 : <input type="text" name="title" th:value="${boardDto.title}" th:field="*{title}"> <br>
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="fieldError">Incorrect data</p>
+
+            작성자 : <input type="text" name="writer" th:value="${boardDto.writer}"  readonly> <br>
+
+            <textarea name="content" th:text="${boardDto.content}" th:field="*{content}"></textarea><br>
+            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="fieldError">Incorrect data</p>
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">수정</button>
-                <button type="submit" class="btn btn-warning">취소</button>
+                <button type="submit" class="btn btn-warning" onclick="location.href='/board/list'">취소</button>
             </div>
         </form>
 
@@ -43,3 +49,4 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
+

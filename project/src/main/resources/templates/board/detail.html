@@ -47,7 +47,7 @@
         </table>
 
         <!-- 수정/삭제 -->
-        <div>
+        <div th:if="${writter}">
             <a th:href="'/board/post/edit/' + ${boardDto.id}">
                 <button class="btn btn-primary">수정</button>
             </a>

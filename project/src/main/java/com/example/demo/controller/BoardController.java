@@ -10,8 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -45,6 +47,7 @@ public class BoardController {
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         Long id = principal.getUser().getId();
         model.addAttribute("userId",id);
+        model.addAttribute("boardDto",new BoardDto());
         return "board/write";
     }
 
@@ -52,7 +55,13 @@ public class BoardController {
     //이후에 /list 경로로 리다이렉트 해준다
 
     @PostMapping("/post")
-    public String write(BoardDto boardDto,Authentication authentication){//@RequestParam("userId") Long userId
+    public String write(@Valid BoardDto boardDto, BindingResult bindingResult, Authentication authentication){//@RequestParam("userId") Long userId
+
+        //게시판 양식 검사
+        if (bindingResult.hasErrors()){
+            log.info("board writing PostMapping Errors");
+            return "/board/write";
+        }
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         User user = principal.getUser();
         boardDto.setUser(user);
@@ -96,7 +105,12 @@ public class BoardController {
 
     //PutMapping을 통해서 게시물 수정부분 적용
     @PutMapping("/post/edit/{no}")
-    public String update(BoardDto boardDto,Authentication authentication){
+    public String update(@Valid BoardDto boardDto,BindingResult bindingResult,Authentication authentication){
+
+        if(bindingResult.hasErrors()){
+            log.info("board 수정폼에서 Putmapping시 binddingResult 발생");
+            return "board/update";
+        }
 
             PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
             User user = principal.getUser();

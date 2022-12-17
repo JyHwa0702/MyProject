@@ -47,7 +47,7 @@ public class SecurityConfig {
                     .passwordParameter("password")
                     .loginProcessingUrl("/login") //로그인을 처리한 URL입력
                     .defaultSuccessUrl("/")
-                    .failureUrl("/user/login")
+                    .failureUrl("/user/login/fail")
 
                 .and()
                 .logout()

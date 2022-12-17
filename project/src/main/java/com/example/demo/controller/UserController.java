@@ -7,14 +7,17 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import com.example.demo.validator.UserDtoValidator;
+import com.example.demo.validator.updateUserValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,6 +39,10 @@ public class UserController {
         return "user/login";
 
     }
+    @GetMapping("/user/login/fail")
+    public String loginFailForm(){
+        return "user/loginFail";
+    }
 
     @GetMapping("/user/join")
     public String joinForm(Model model){
@@ -51,7 +58,6 @@ public class UserController {
         if (bindingResult.hasErrors()){
             return "user/join";
         }
-
         //중복검사
         userDtoValidator.validate(userDto,bindingResult);
         if (bindingResult.hasErrors()){
@@ -60,16 +66,6 @@ public class UserController {
 
         try{
             userService.saveUser(userDto);
-//            String encodePwd = bCryptPasswordEncoder.encode(userDto.getPassword());
-//            userDto.setPassword(encodePwd);
-//            User user = User.userDetailRegister()
-//                    .email(userDto.getEmail())
-//                    .username(userDto.getUsername())
-//                    .role(Role.ROLE_USER)
-//                    .password(encodePwd)
-//                    .build();
-//
-//            userRepository.save(user);
         } catch (IllegalStateException e){
             model.addAttribute("errorMessage",e.getMessage());
             return "user/join";
@@ -77,17 +73,25 @@ public class UserController {
         return "redirect:/user/login";
     }
     @GetMapping("/user/update")
-    public String updateForm(Authentication authentication, Model model){
+    public String updateForm( Authentication authentication, Model model){
 
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         User user = userService.getInfoByEmail(principal);
-        model.addAttribute("user",user);
+        model.addAttribute("userDto",user);
         return "user/update";
     }
 
     @PutMapping("/user/update")
-    public String update(UserDto userDto) {
+    public String update(@Validated(updateUserValidation.class) UserDto userDto, BindingResult bindingResult) {
+        log.info("Controller update 들어옴");
+        //유저 양식 검사
+        if (bindingResult.hasFieldErrors()){
+            log.info("bindingResult 실행됨");
+            return "user/update";
+        }
+        log.info("userService update 전");
         userService.updateUser(userDto);
+        log.info("userService update 후");
         return "index";
     }
 

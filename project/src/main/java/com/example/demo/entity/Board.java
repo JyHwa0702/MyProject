@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 //JPA에서는 프록시 생성을 위해 기본 생성자 하나 있어야한다. -> NOargsConㅡ
@@ -21,6 +22,7 @@ public class Board extends Time{
     private Long id;
 
     @Column(length = 10,nullable = false)
+    @Size(min = 2,max = 30)
     private String writer;
 
     @Column(length = 100,nullable = false)

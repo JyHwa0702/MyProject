@@ -2,6 +2,7 @@ package com.example.demo.dto;
 
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
+import com.example.demo.validator.updateUserValidation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,8 +26,10 @@ public class UserDto {
     @Size(min = 2,max = 10,message = "비밀번호를 2~10자 사이로 입력해주세요.")
     private String password;
 
-    @NotBlank(message = "이름은 필수 입력값입니다.")
-    @Size(min = 2,max = 10,message = "이름을 2~10자 사이로 입력해주세요.")
+    @NotBlank(message = "이름은 필수 입력값입니다.",
+                groups = updateUserValidation.class)
+    @Size(min = 2,max = 30,message = "이름을 2~30자 사이로 입력해주세요.",
+                groups = updateUserValidation.class)
     private String username;
 
     @NotBlank(message = "이메일은 필수 입력값입니다.")

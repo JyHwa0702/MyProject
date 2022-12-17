@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 //Google Oauth2 로그인 한 사용자들에 대한 정보를 저장하기 위한 User테이블
 @Entity
