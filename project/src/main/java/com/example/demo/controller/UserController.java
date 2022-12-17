@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Random;
 
 @Controller
 @RequiredArgsConstructor
@@ -95,8 +96,23 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/user/findId")
-    public String findId()
+    @GetMapping("/user/findPwd")
+    public String findPwd(){
+        return "/user/findPwd";
+    }
+
+    @GetMapping("/mailCheck")
+    @ResponseBody
+    public void mailCheckGet(String email) throws Exception{
+        //뷰로부터 넘어온 데이터확인.
+        log.info("이메일 데이터 전송 확인.");
+        log.info("인증번호 : "+email);
+
+        //난수 생성
+        Random random = new Random();
+        int checkNum = random.nextInt(888888)+111111;
+        log.info("인증번호 "+checkNum);
+    }
 
 
 //    //!!! OAuth로 로그인시 이방식대로 하면 CastException이 발생한다.

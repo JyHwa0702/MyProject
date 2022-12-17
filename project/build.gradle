@@ -33,7 +33,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+//	implementation 'javax.mail:mail:1.4.7'
+//	implementation 'org.springframework:spring-context-support:6.0.2'
 //	compileOnly("org.springframework.boot:spring-boot-devtools")
 }
 
