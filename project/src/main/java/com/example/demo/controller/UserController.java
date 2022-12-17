@@ -95,51 +95,36 @@ public class UserController {
         return "index";
     }
 
+    @GetMapping("/user/findId")
+    public String findId()
 
-    @GetMapping("/user")
-    @ResponseBody
-    public String user(){
-        return "user";
-    }
 
-    @GetMapping("/manager")
-    @ResponseBody
-    public String manager(){
-        return "manager";
-    }
-
-    @GetMapping("/admin")
-    @ResponseBody
-    public String admin(){
-        return "admin";
-    }
-
-    //!!! OAuth로 로그인시 이방식대로 하면 CastException이 발생한다.
-    @GetMapping("/form/loginInfo")
-    @ResponseBody
-    public String formLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
-
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        User user = principal.getUser();
-        System.out.println(user);
-
-        User user1 = principalDetails.getUser();
-        System.out.println(user1);
-
-        return user.toString();
-    }
-
-    @GetMapping("/oauth/loginInfo")
-    @ResponseBody
-    public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        String result = "";
-
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        if(principal.getUser().getProvider() == null){
-            result = result + "Form 로그인 : "+principal;
-        } else {
-            result = result + "OAuth2 로그인 : "+ principal;
-        }
-        return result;
-    }
+//    //!!! OAuth로 로그인시 이방식대로 하면 CastException이 발생한다.
+//    @GetMapping("/form/loginInfo")
+//    @ResponseBody
+//    public String formLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
+//
+//        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+//        User user = principal.getUser();
+//        System.out.println(user);
+//
+//        User user1 = principalDetails.getUser();
+//        System.out.println(user1);
+//
+//        return user.toString();
+//    }
+//
+//    @GetMapping("/oauth/loginInfo")
+//    @ResponseBody
+//    public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
+//        String result = "";
+//
+//        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+//        if(principal.getUser().getProvider() == null){
+//            result = result + "Form 로그인 : "+principal;
+//        } else {
+//            result = result + "OAuth2 로그인 : "+ principal;
+//        }
+//        return result;
+//    }
 }
