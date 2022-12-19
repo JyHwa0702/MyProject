@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.auth.PrincipalDetails;
+import com.example.demo.dto.EmailAuthDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
@@ -97,7 +98,8 @@ public class UserController {
     }
 
     @GetMapping("/user/findPwd")
-    public String findPwd(){
+    public String findPwd(Model model){
+        model.addAttribute("emailDto",new EmailAuthDto());
         return "/user/findPwd";
     }
 

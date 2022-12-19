@@ -19,9 +19,10 @@
   <H2>비밀번호 찾기</H2>
 
   <div class="login-id-wrap">
-    <form action="/emailConfirm" method="post">
-    <input type="text" name="email" id="input-id"   placeholder="아이디를 입력하세요."></input>
-    <button type="submit"></button>
+    <form th:action="@{/emailConfirm}" method="post" th:object ="${emailDto}" >
+      <input type="email" th:field="*{email}" id="input-id"   placeholder="아이디를 입력하세요."></input>
+      <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p>
+      <button type="submit"></button>
     </form>
   </div>
 

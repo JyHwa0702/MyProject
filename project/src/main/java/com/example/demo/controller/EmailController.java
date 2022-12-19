@@ -1,22 +1,26 @@
 package com.example.demo.controller;
 
+
+import com.example.demo.dto.EmailAuthDto;
 import com.example.demo.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@Slf4j
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+
+@RestController
 @RequiredArgsConstructor
-public class EmailController {
+public class EmailController{
     private final EmailService emailService;
 
     @PostMapping("/emailConfirm")
-    public String emailConfirm(@RequestParam String email) throws Exception{
-        String confirm = emailService.sendSimpleMessage(email);
+    public String mailConfirm(EmailAuthDto emailDto, BindingResult bindingResult) throws MessagingException, UnsupportedEncodingException{
+        String authCode = emailService.sendEmail(emailDto.getEmail());
+        return authCode;
 
-        return confirm;
     }
+
 }
