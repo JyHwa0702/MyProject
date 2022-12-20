@@ -20,10 +20,13 @@
 
   <div class="login-id-wrap">
     <form th:action="@{/emailConfirm}" method="post" th:object ="${emailDto}" >
-      <input type="email" th:field="*{email}" id="input-id"   placeholder="아이디를 입력하세요."></input>
+      <input type="email" th:field="*{email}" id="input-id"   placeholder="가입시 등록한 이메일을 입력하세요."></input>
       <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p>
-      <button type="submit"></button>
+      <button type="submit" id="checkEmail">OK</button>
     </form>
+    <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span
+            class="glyphicon glyphicon-remove"></span> Cancel
+    </button>
   </div>
 
   <div class="login-btn-wrap"><!--로그인 버튼-->

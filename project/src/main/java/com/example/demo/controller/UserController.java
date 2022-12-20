@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.auth.PrincipalDetails;
-import com.example.demo.dto.EmailAuthDto;
 import com.example.demo.dto.UserDto;
-import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
@@ -11,9 +9,7 @@ import com.example.demo.validator.UserDtoValidator;
 import com.example.demo.validator.updateUserValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -99,7 +95,7 @@ public class UserController {
 
     @GetMapping("/user/findPwd")
     public String findPwd(Model model){
-        model.addAttribute("emailDto",new EmailAuthDto());
+        model.addAttribute("emailDto",new UserDto());
         return "/user/findPwd";
     }
 
@@ -116,33 +112,10 @@ public class UserController {
         log.info("인증번호 "+checkNum);
     }
 
+    @PostMapping("/check/findPw/sendEmail")
+    public @ResponseBody void sendEmail(String email){
+        MailDto dto = sendEmailService.createMailAndChangePassword(email);
+        sendEmailService.mailsend(dto);
+    }
 
-//    //!!! OAuth로 로그인시 이방식대로 하면 CastException이 발생한다.
-//    @GetMapping("/form/loginInfo")
-//    @ResponseBody
-//    public String formLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
-//
-//        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-//        User user = principal.getUser();
-//        System.out.println(user);
-//
-//        User user1 = principalDetails.getUser();
-//        System.out.println(user1);
-//
-//        return user.toString();
-//    }
-//
-//    @GetMapping("/oauth/loginInfo")
-//    @ResponseBody
-//    public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
-//        String result = "";
-//
-//        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-//        if(principal.getUser().getProvider() == null){
-//            result = result + "Form 로그인 : "+principal;
-//        } else {
-//            result = result + "OAuth2 로그인 : "+ principal;
-//        }
-//        return result;
-//    }
-}
+

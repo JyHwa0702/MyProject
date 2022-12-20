@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.dto.EmailAuthDto;
 import com.example.demo.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
