@@ -19,16 +19,8 @@ public class Comment extends Time{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT",nullable = false)
+    @Column(columnDefinition = "TEXT",nullable = false, length = 500)
     private String comment; // 댓글 내용
-
-//    @Column(columnDefinition = "created_date")
-//    @CreatedDate
-//    private String createdDate;
-//
-//    @Column(name = "modified_date")
-//    @LastModifiedDate
-//    private String modifiedDate;
 
     @ManyToOne
     @JoinColumn(name = "board_id")
