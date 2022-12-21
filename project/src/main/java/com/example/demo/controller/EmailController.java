@@ -1,25 +1,29 @@
 package com.example.demo.controller;
 
-
+import com.example.demo.dto.EmailDto;
 import com.example.demo.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.BindingResult;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequiredArgsConstructor
-public class EmailController{
+@Slf4j
+public class EmailController {
+
     private final EmailService emailService;
 
     @PostMapping("/emailConfirm")
-    public String mailConfirm(EmailAuthDto emailDto, BindingResult bindingResult) throws MessagingException, UnsupportedEncodingException{
-        String authCode = emailService.sendEmail(emailDto.getEmail());
-        return authCode;
-
+    public ResponseEntity<Void> mailConfirm( @Valid EmailDto emailDto) throws MessagingException, UnsupportedEncodingException{
+        log.info("emailDto.getEmail = "+emailDto.getEmail());
+        emailService.authEmail(emailDto);
+        return ResponseEntity.ok().build();
     }
-
 }

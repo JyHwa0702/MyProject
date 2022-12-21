@@ -33,8 +33,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 //URL별 권한 관리를 설정하는 옵션의 시작점
                 //authorizeRequests가 선언되어야만 antMatchers옵션을 사용가능.
-                .antMatchers("/","/user/**").permitAll()
-                .antMatchers("/user/info","/board/**","/board/list").hasRole("USER")
+                .antMatchers("/","/user/**","/board/list").permitAll()
+                .antMatchers("/user/info","/board/**").hasRole("USER")
                 //권한 관리 대상을 지정하는 옵션,permit 권한제한 없음.
                 .anyRequest().permitAll()
                 //설정된 값을 이외 나머지 URL들을 나타냄.

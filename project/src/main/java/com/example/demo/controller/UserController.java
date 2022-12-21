@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.auth.PrincipalDetails;
+import com.example.demo.dto.EmailDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
@@ -31,51 +32,53 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/login")
-    public String loginForm(){
+    public String loginForm() {
 
         log.info("get로그인");
         return "user/login";
 
     }
+
     @GetMapping("/user/login/fail")
-    public String loginFailForm(){
+    public String loginFailForm() {
         return "user/loginFail";
     }
 
     @GetMapping("/user/join")
-    public String joinForm(Model model){
-        model.addAttribute("userDto",new UserDto());
+    public String joinForm(Model model) {
+        model.addAttribute("userDto", new UserDto());
         log.info("get회원가입");
         return "user/join";
     }
 
     @PostMapping("/join")
-    public String join(@Valid UserDto userDto, BindingResult bindingResult, Model model){
+    public String join(@Valid UserDto userDto, BindingResult bindingResult, Model model) {
 
         //유저 양식 검사
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "user/join";
         }
         //중복검사
-        userDtoValidator.validate(userDto,bindingResult);
-        if (bindingResult.hasErrors()){
+        userDtoValidator.validate(userDto, bindingResult);
+        if (bindingResult.hasErrors()) {
             return "user/join";
         }
 
-        try{
+        try {
             userService.saveUser(userDto);
-        } catch (IllegalStateException e){
-            model.addAttribute("errorMessage",e.getMessage());
+        } catch (IllegalStateException e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "user/join";
         }
         return "redirect:/user/login";
     }
+
     @GetMapping("/user/update")
-    public String updateForm( Authentication authentication, Model model){
+    public String updateForm(Authentication authentication, Model model) {
 
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         User user = userService.getInfoByEmail(principal);
-        model.addAttribute("userDto",user);
+        model.addAttribute("userDto", user);
         return "user/update";
     }
 
@@ -83,7 +86,7 @@ public class UserController {
     public String update(@Validated(updateUserValidation.class) UserDto userDto, BindingResult bindingResult) {
         log.info("Controller update 들어옴");
         //유저 양식 검사
-        if (bindingResult.hasFieldErrors()){
+        if (bindingResult.hasFieldErrors()) {
             log.info("bindingResult 실행됨");
             return "user/update";
         }
@@ -94,28 +97,12 @@ public class UserController {
     }
 
     @GetMapping("/user/findPwd")
-    public String findPwd(Model model){
-        model.addAttribute("emailDto",new UserDto());
+    public String findPwd(Model model) {
+        model.addAttribute("emailDto", new UserDto());
         return "/user/findPwd";
     }
+}
 
-    @GetMapping("/mailCheck")
-    @ResponseBody
-    public void mailCheckGet(String email) throws Exception{
-        //뷰로부터 넘어온 데이터확인.
-        log.info("이메일 데이터 전송 확인.");
-        log.info("인증번호 : "+email);
 
-        //난수 생성
-        Random random = new Random();
-        int checkNum = random.nextInt(888888)+111111;
-        log.info("인증번호 "+checkNum);
-    }
-
-    @PostMapping("/check/findPw/sendEmail")
-    public @ResponseBody void sendEmail(String email){
-        MailDto dto = sendEmailService.createMailAndChangePassword(email);
-        sendEmailService.mailsend(dto);
-    }
 
 
