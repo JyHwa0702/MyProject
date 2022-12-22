@@ -39,6 +39,7 @@ public class UserDto {
     private String picture;
 
     private Role role;
+    
 
     @Transactional
     public UserDto update(String username, String picture){
