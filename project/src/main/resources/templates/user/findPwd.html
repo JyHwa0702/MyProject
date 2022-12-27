@@ -20,16 +20,21 @@
 
   <div class="login-id-wrap">
     <form th:action="@{/emailConfirm}" method="post" th:object ="${emailDto}" >
-      <input type="email" th:field="*{email}" id="input-id"   placeholder="가입시 등록한 이메일을 입력하세요."></input><br>
-      <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p><br>
-      <button type="submit" id="checkEmail">OK</button><br>
-      <p th:text="${message}"></p>
+      <input type="email" th:field="*{email}" id="input-id"   placeholder="가입시 등록한 이메일을 입력하세요."></input>
+      <button type="submit" id="checkEmail">OK</button>
+
+      <p th:text="${Message}" name="Message"> </p>
+      <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p>
     </form>
     <form th:action="@{/emailConfirm/code}" method="post">
-    <span class="glyphicon glyphicon-remove">
-      <input type="text" name="authKey" id="input-username" placeholder="이메일로 받은 인증코드를 입력하세요.">
-    <button type= "submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">인증</button>
-    </span>
+
+      <input type="text" name="authKey" id="input-username" placeholder="이메일로 받은 인증코드를 입력하세요." disabled>
+      <script>
+         if(codeConfirm === 'true'){
+        document.write('<input type="text" id="codeText" readonly/>');
+        }
+      </script>
+      <button type= "submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">인증</button>
     </form>
   </div>
 
