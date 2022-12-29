@@ -27,14 +27,15 @@
       <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p>
     </form>
     <form th:action="@{/emailConfirm/code}" method="post">
-
-      <input type="text" name="authKey" id="input-username" placeholder="이메일로 받은 인증코드를 입력하세요." disabled>
+      <input type="hidden" name="inputEmail" value="${email}">
+      <input type="text" name="authKey" id="input-code" placeholder="이메일로 받은 인증코드를 입력하세요." disabled>
       <script>
-         if(codeConfirm === 'true'){
-        document.write('<input type="text" id="codeText" readonly/>');
+         if("${codeConfirm}"){
+         document.getElementById('input-code').disabled = false;
         }
       </script>
       <button type= "submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">인증</button>
+      <p th:text="${codeMessage}" name="codeMessage"> </p>
     </form>
   </div>
 

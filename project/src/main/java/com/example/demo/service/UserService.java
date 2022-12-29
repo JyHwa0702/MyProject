@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,6 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public User getInfoByEmail(PrincipalDetails principalDetails){
@@ -55,6 +57,12 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void pwdChange(User user,String password){
+        String changePwd = bCryptPasswordEncoder.encode(password);
+        user.changePwd(changePwd);
     }
 
 //    @Transactional

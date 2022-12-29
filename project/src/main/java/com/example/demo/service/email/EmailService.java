@@ -1,6 +1,8 @@
 package com.example.demo.service.email;
 
 import com.example.demo.dto.EmailDto;
+import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.redis.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,15 +10,11 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.springframework.ui.Model;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
-import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -26,7 +24,9 @@ public class EmailService {
 
     private final JavaMailSender emailSender;
     private final RedisUtil redisUtil;
+    private final UserRepository userRepository;
 
+    @Transactional
     public String sendSimpleMessage(EmailDto emailDto){
 
         //임의의 authKey 생성
@@ -47,6 +47,7 @@ public class EmailService {
         return authKey;
     }
 
+    @Transactional
     private SimpleMailMessage createMessage(String to, String subject,String text){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -56,6 +57,7 @@ public class EmailService {
         return message;
     }
 
+    @Transactional
     public String verifyEmail(String authKey) throws ChangeSetPersister.NotFoundException{
         String memberEmail = redisUtil.getData(authKey);
 
@@ -63,7 +65,26 @@ public class EmailService {
             throw new ChangeSetPersister.NotFoundException();
         }
         redisUtil.deleteData(authKey);
+//        return authKey;
         return authKey;
+    }
+
+    public Optional<User> getUser(EmailDto emailDto,Model model, String authKey) {
+        String verifyAuthKey = null;
+        Optional<User> userByEmail = null;
+        try{
+            verifyAuthKey = verifyEmail(authKey);
+            String keyEmail = redisUtil.getData(verifyAuthKey);
+            log.info("try안에서의 keyEmail : "+ keyEmail);
+            userByEmail = userRepository.findByEmail(keyEmail);
+            log.info("try안에서의 userByEmail : "+ userByEmail);
+        }catch(ChangeSetPersister.NotFoundException e){
+            model.addAttribute("잘못된 코드입니다. 코드를 확인해주세요","codeMessage");
+        }
+        log.info("try,catch이후의 key값 : "+verifyAuthKey);
+        log.info("try,catch이후의 key값 : "+verifyAuthKey);
+
+        return userByEmail;
     }
 
 

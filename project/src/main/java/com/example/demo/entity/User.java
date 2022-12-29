@@ -1,6 +1,9 @@
 package com.example.demo.entity;
 
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -10,8 +13,8 @@ import javax.validation.constraints.Size;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "USERS")
-
 public class User extends Time{
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
