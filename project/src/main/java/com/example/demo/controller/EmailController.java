@@ -34,7 +34,7 @@ public class EmailController {
         String email = emailDto.getEmail();
         Optional<User> byEmail = userRepository.findByEmail(email);
         if (byEmail.isPresent()) {
-            emailService.sendSimpleMessage(emailDto);
+            emailService.sendSimpleMessage(email);
             model.addAttribute("Message","인증코드를 해당 메일로 보냈습니다.");
             model.addAttribute("codeConfirm",true);
 
@@ -49,18 +49,37 @@ public class EmailController {
         return "/";
     }
 
-    @ResponseBody
-    @PostMapping("/emailConfirm/code")
-    public String emailConfirmCode(EmailDto emailDto,Model model,String authKey) throws ChangeSetPersister.NotFoundException {
 
-        Optional<User> byEmail = emailService.getUser(emailDto,model, authKey);
-        String email = emailDto.getEmail();
-        boolean equalsEmail = byEmail.get().equals(email);
-        log.info(String.valueOf(equalsEmail));
+    @PostMapping("/emailConfirm/code")
+    public String emailConfirmCode(String email,Model model,String authKey) throws ChangeSetPersister.NotFoundException {
+
+        Optional<User> byEmail = emailService.getUser(email,model, authKey);
+        log.info("email Controller에서의 byemail : " + byEmail.get());
+
+        boolean equalsEmail = (byEmail.get().getEmail()).equals(email);
+        boolean equalsEmail2 = byEmail.get().getEmail().equals(email);
+        log.info("equalsEmail : "+String.valueOf(equalsEmail));
+        log.info("equalsEmail2 : "+String.valueOf(equalsEmail2));
+        model.addAttribute("email",email);
         if (equalsEmail){
-            return "비밀번호 변경창으로 이동";
+            return "/user/OkFindPwd";
         }
-        return "마지막 리턴";
+
+        return "/user/findPwd";
+    }
+
+    @PutMapping("/emailConfirm/code/ok")
+    public String OkfindPwd(String email, String password,String password2,Model model){
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        boolean comparePwd = password.equals(password2);
+        log.info("비밀번호 1,2번 비교 값 : "+comparePwd);
+        if (comparePwd){ //비밀번호 1,2번 일치로 변경할예정.
+            byEmail.get().changePwd(password);
+            return "redirect:/user/login";
+        } else{
+            model.addAttribute("message","비밀번호 확인이 일치하지 않습니다!");
+            return "/emailConfirm/code/ok";
+        }
     }
 
 

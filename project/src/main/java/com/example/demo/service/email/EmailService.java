@@ -1,5 +1,6 @@
 package com.example.demo.service.email;
 
+import com.example.demo.config.auth.EmailProperties;
 import com.example.demo.dto.EmailDto;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
@@ -25,26 +26,28 @@ public class EmailService {
     private final JavaMailSender emailSender;
     private final RedisUtil redisUtil;
     private final UserRepository userRepository;
+    private final EmailProperties emailProperties;
 
     @Transactional
-    public String sendSimpleMessage(EmailDto emailDto){
+    public void sendSimpleMessage(String email){
 
         //임의의 authKey 생성
         Random random = new Random();
         String authKey = String.valueOf(random.nextInt(888888)+111111);
-        emailDto.setAuthKey(authKey);
+
+//        emailDto.setAuthKey(authKey);
         String subject ="TRIP VIEW 코드인증메일입니다.";
         String text ="코드번호는 "+authKey+" 입니다. 입력칸에 입력해주세요.";
-        SimpleMailMessage message = createMessage(emailDto.email, subject,text);
+        SimpleMailMessage message = createMessage(email, subject,text);
+        redisUtil.setDataExpire(authKey,email,60*3L);
 
         try{
-            redisUtil.setDataExpire(authKey,emailDto.getEmail(),180*1L);
             emailSender.send(message);
         }catch (MailException es ){
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
-        return authKey;
+//        return authKey;
     }
 
     @Transactional
@@ -69,15 +72,16 @@ public class EmailService {
         return authKey;
     }
 
-    public Optional<User> getUser(EmailDto emailDto,Model model, String authKey) {
+
+    public Optional<User> getUser(String email,Model model, String authKey) {
         String verifyAuthKey = null;
         Optional<User> userByEmail = null;
         try{
-            verifyAuthKey = verifyEmail(authKey);
-            String keyEmail = redisUtil.getData(verifyAuthKey);
+            String keyEmail = redisUtil.getData(authKey);
             log.info("try안에서의 keyEmail : "+ keyEmail);
             userByEmail = userRepository.findByEmail(keyEmail);
             log.info("try안에서의 userByEmail : "+ userByEmail);
+            verifyAuthKey = verifyEmail(authKey);
         }catch(ChangeSetPersister.NotFoundException e){
             model.addAttribute("잘못된 코드입니다. 코드를 확인해주세요","codeMessage");
         }

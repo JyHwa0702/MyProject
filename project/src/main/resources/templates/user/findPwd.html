@@ -20,7 +20,7 @@
 
   <div class="login-id-wrap">
     <form th:action="@{/emailConfirm}" method="post" th:object ="${emailDto}" >
-      <input type="email" th:field="*{email}" id="input-id"   placeholder="가입시 등록한 이메일을 입력하세요."></input>
+      <input type="email" th:field="*{email}" id="input-id"  placeholder="가입시 등록한 이메일을 입력하세요."></input>
       <button type="submit" id="checkEmail">OK</button>
 
       <p th:text="${Message}" name="Message"> </p>
@@ -30,8 +30,10 @@
       <input type="hidden" name="inputEmail" value="${email}">
       <input type="text" name="authKey" id="input-code" placeholder="이메일로 받은 인증코드를 입력하세요." disabled>
       <script>
-         if("${codeConfirm}"){
-         document.getElementById('input-code').disabled = false;
+        if(!"${codeConfirm}"){
+          document.getElementById('input-code').disabled = true;
+        }else if("${codeConfirm}"){
+          document.getElementById('input-code').disabled = false;
         }
       </script>
       <button type= "submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">인증</button>
