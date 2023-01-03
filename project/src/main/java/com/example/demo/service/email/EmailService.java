@@ -73,7 +73,7 @@ public class EmailService {
     }
 
 
-    public Optional<User> getUser(String email,Model model, String authKey) {
+    public Optional<User> getUser(String email,String authKey,Model model) {
         String verifyAuthKey = null;
         Optional<User> userByEmail = null;
         try{

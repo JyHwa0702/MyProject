@@ -98,7 +98,9 @@ public class UserController {
 
     @GetMapping("/user/findPwd")
     public String findPwd(Model model) {
-        model.addAttribute("emailDto", new UserDto());
+        model.addAttribute("emailDto", new EmailDto());
+
+        model.addAttribute("codeConfirm",false);
         return "/user/findPwd";
     }
 }

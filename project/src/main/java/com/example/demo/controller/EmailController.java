@@ -43,7 +43,7 @@ public class EmailController {
             return "/user/findPwd";
         } else if (byEmail.isEmpty()) {
             model.addAttribute("Message","해당 이메일 유저가 존재하지 않습니다.");
-            model.addAttribute("codeConfirm",false);
+//            model.addAttribute("codeConfirm",false);
             return "/user/findPwd";
         }
         return "/";
@@ -51,16 +51,19 @@ public class EmailController {
 
 
     @PostMapping("/emailConfirm/code")
-    public String emailConfirmCode(String email,Model model,String authKey) throws ChangeSetPersister.NotFoundException {
+    public String emailConfirmCode(String inputEmail,String authKey,Model model) throws ChangeSetPersister.NotFoundException {
 
-        Optional<User> byEmail = emailService.getUser(email,model, authKey);
+        Optional<User> byEmail = emailService.getUser(inputEmail,authKey,model);
         log.info("email Controller에서의 byemail : " + byEmail.get());
+        String findEmail = byEmail.get().getEmail();
+        log.info("findEmail = "+ findEmail);
 
-        boolean equalsEmail = (byEmail.get().getEmail()).equals(email);
-        boolean equalsEmail2 = byEmail.get().getEmail().equals(email);
+        log.info("requestEmail = "+ inputEmail);
+
+
+        boolean equalsEmail = findEmail.equals(inputEmail);
         log.info("equalsEmail : "+String.valueOf(equalsEmail));
-        log.info("equalsEmail2 : "+String.valueOf(equalsEmail2));
-        model.addAttribute("email",email);
+        model.addAttribute("email",findEmail);
         if (equalsEmail){
             return "/user/OkFindPwd";
         }

@@ -19,21 +19,31 @@
   <H2>비밀번호 찾기</H2>
 
   <div class="login-id-wrap">
-    <form th:action="@{/emailConfirm}" method="post" th:object ="${emailDto}" >
-      <input type="email" th:field="*{email}" id="input-id"  placeholder="가입시 등록한 이메일을 입력하세요."></input>
+    <form th:action="@{/emailConfirm}" method="post" th:object="${emailDto}">
+      <input type="email" th:field="*{email}" name="email" id="input-id"  placeholder="가입시 등록한 이메일을 입력하세요."></input>
       <button type="submit" id="checkEmail">OK</button>
 
       <p th:text="${Message}" name="Message"> </p>
       <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p>
     </form>
     <form th:action="@{/emailConfirm/code}" method="post">
-      <input type="hidden" name="inputEmail" value="${email}">
-      <input type="text" name="authKey" id="input-code" placeholder="이메일로 받은 인증코드를 입력하세요." disabled>
+      <input type="hidden" name="inputEmail" th:value="${email}">
+      <input type="text" name="authKey" id="input-code" placeholder="이메일로 받은 인증코드를 입력하세요.">
+      <input type="hidden" name="codeConfirm" th:value="${codeConfirm}">
       <script>
-        if(!"${codeConfirm}"){
-          document.getElementById('input-code').disabled = true;
-        }else if("${codeConfirm}"){
-          document.getElementById('input-code').disabled = false;
+        var codeConfirm = $('input[name=codeConfirm]').val();
+        console.log("로그 체크 : ");
+        console.log("로그 체크 : "+codeConfirm);
+
+         if(codeConfirm == "true"){
+
+         console.log("로그 체크 : if문 안에 true");
+         document.querySelector('#input-code').disabled = false;
+        }else if(codeConfirm == "false"){
+        console.log("로그 체크 : if문 안에 false");
+        document.querySelector('#input-code').disabled = true;
+
+
         }
       </script>
       <button type= "submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">인증</button>
