@@ -80,6 +80,7 @@ public class EmailController {
             byEmail.get().changePwd(password);
             return "redirect:/user/login";
         } else{
+            model.addAttribute("email",email);
             model.addAttribute("message","비밀번호 확인이 일치하지 않습니다!");
             return "/emailConfirm/code/ok";
         }

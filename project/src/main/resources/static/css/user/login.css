@@ -65,6 +65,16 @@ H2{
 	padding-left: 10px;
 	background-color: rgb(233, 233, 233);
 }
+#input-code{
+    width: 300px;
+   	height: 32px;
+ 	font-size: 15px;
+   	border: 0;
+    border-radius: 15px;
+   	outline: none;
+   	padding-left: 10px;
+   	background-color: rgb(233, 233, 233);
+}
 .login-pw-wrap{
 	margin-top:20px;
 	margin-bottom:20px;

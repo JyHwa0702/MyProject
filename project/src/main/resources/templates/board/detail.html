@@ -60,14 +60,20 @@
             <div class="card-header bg-light">
                 <i class="fa fa-comment fa"></i> 댓글
             </div>
+
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
-                        <button type="button" class="btn btn-dark mt-3">등록</button>
+                        <form th:action="@{'/api/board/'+${boardDto.id}+'/comments'}" th:object="${commentDto}">
+
+                            <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="1"></textarea>
+                            <input type="hidden" name="boardId" th:value="${boardDto.id}">
+                            <button type="button" class="btn btn-dark mt-3">등록</button>
+                        </form>
                     </li>
                 </ul>
             </div>
+
         </div>
         <br/>
         <div class="card">
