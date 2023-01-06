@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Builder
 @AllArgsConstructor
@@ -19,8 +21,10 @@ public class Comment extends Time{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @NotBlank
     @Column(columnDefinition = "TEXT",nullable = false, length = 500)
-    private String comment; // 댓글 내용
+    private String content; // 댓글 내용
 
     @ManyToOne
     @JoinColumn(name = "board_id")

@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.entity.Comment;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.validator.updateUserValidation;
@@ -13,6 +14,7 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @Builder
@@ -39,6 +41,8 @@ public class UserDto {
     private String picture;
 
     private Role role;
+
+    private List<Comment> commentList;
     
 
     @Transactional

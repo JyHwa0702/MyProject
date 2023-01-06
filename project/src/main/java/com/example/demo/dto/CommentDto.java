@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class CommentDto {
     private Long id;
-    private String comment;
+    private String content;
     private String createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
     private String modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
     private User user;
@@ -30,7 +30,7 @@ public class CommentDto {
     public Comment toEntity(){
         Comment comments = Comment.builder()
                 .id(id)
-                .comment(comment)
+                .content(content)
                 .user(user)
                 .board(board)
                 .build();
@@ -40,7 +40,7 @@ public class CommentDto {
     /*Entity -> Dto */
     public CommentDto(Comment comment){
         this.id = comment.getId();
-        this.comment = comment.getComment();
+        this.content = comment.getContent();
         this.username = comment.getUser().getUsername();
         this.boardId = comment.getBoard().getId();
     }

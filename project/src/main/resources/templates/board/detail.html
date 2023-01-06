@@ -56,6 +56,8 @@
                 <button class="btn btn-warning" id="delete-btn">삭제</button>
             </form>
         </div>
+
+        <!-- 댓글 작성부분 시작-->
         <div class="card mb-2 mt-5">
             <div class="card-header bg-light">
                 <i class="fa fa-comment fa"></i> 댓글
@@ -64,10 +66,9 @@
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <form th:action="@{'/board/'+${boardDto.id}+'/comments'}" th:object="${commentDto}" method="post">
-
-                            <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="1"></textarea>
-                            <input type="hidden" name="boardId" th:value="${boardDto.id}">
+                        <form th:action="@{'/post/'+${boardDto.id}+'/comment/write'}" method="post">
+                            <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="1" placeholder="댓글을 입력해주세요."></textarea>
+                            <input type="hidden" name="board_id" th:value="${boardDto.id}">
                             <button type="submit" class="btn btn-dark mt-3">등록</button>
                         </form>
                     </li>
@@ -75,6 +76,8 @@
             </div>
 
         </div>
+        <!-- 댓글 작성부분 끝-->
+
         <br/>
         <div class="card">
             <div class="card-header">댓글</div>

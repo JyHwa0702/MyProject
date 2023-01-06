@@ -62,6 +62,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public String getUsername() {
         return user.getUsername();
     }
+    public String getEmail(){
+        return user.getEmail();
+    }
 
     //계정 만료여부
     //true : 만료안됨

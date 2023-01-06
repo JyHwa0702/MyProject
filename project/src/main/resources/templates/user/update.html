@@ -19,7 +19,7 @@
         <H2>회원정보 수정</H2>
         <div class="login-id-wrap">
             <H4>닉네임</H4>
-            <input type="text" name="username" id="input-id" placeholder="변경할 닉네임을 입력해주세요" value="*{username}"></input>
+            <input type="text" name="username" id="input-id" placeholder="변경할 닉네임을 입력해주세요" th:value="${username}"></input>
             <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="fieldError">Incorrect data</p>
 
             <input type="hidden" name="password" th:value="${userDto.password}"/>
