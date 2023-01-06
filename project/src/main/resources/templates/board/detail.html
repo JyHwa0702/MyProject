@@ -64,11 +64,11 @@
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <form th:action="@{'/api/board/'+${boardDto.id}+'/comments'}" th:object="${commentDto}">
+                        <form th:action="@{'/board/'+${boardDto.id}+'/comments'}" th:object="${commentDto}" method="post">
 
-                            <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="1"></textarea>
+                            <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="1"></textarea>
                             <input type="hidden" name="boardId" th:value="${boardDto.id}">
-                            <button type="button" class="btn btn-dark mt-3">등록</button>
+                            <button type="submit" class="btn btn-dark mt-3">등록</button>
                         </form>
                     </li>
                 </ul>

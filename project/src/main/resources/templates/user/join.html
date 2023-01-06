@@ -14,7 +14,7 @@
 </div>
 
 <section class="login-wrap">
-  <form th:action="@{/join}" method="post" th:object="${userDto}">
+  <form th:action="@{/join}"  th:object="${userDto}">
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
     <H2>회원가입</H2>
     <div class="login-id-wrap">
