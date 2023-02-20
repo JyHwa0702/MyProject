@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -29,23 +30,30 @@ public class CommentController {
     private final CommentService commentService;
     private final BoardRepository boardRepository;
 
+
+    //댓글 저장
     @PostMapping("/post/{board_id}/comment/write")
     public String commentWrite(CommentDto commentDto, Model model, @PathVariable Long board_id
             , @AuthenticationPrincipal PrincipalDetails principalDetails){
 
         Optional<Board> byId = boardRepository.findById(board_id);
+
         Board board = byId.get();
         BoardDto boardDto = BoardDto.builder()
                 .board(board)
                 .build();
 
+        List<CommentDto> comments = boardDto.getComments();
+
         model.addAttribute("boardDto",boardDto);
+        model.addAttribute("comments",comments);
 
         User user = principalDetails.getUser();
         String email = user.getEmail();
 
         log.info("CommentController 내의 commentWrite부분에서의 현재 로그인된 유저의 Email값, 저장 전 : "+email);
-        commentService.commentWrite(commentDto, user, board_id);
+        commentDto.setUser(user);
+        commentService.commentWrite(commentDto,board_id);
         log.info("CommentController 내 댓글 저장로직 후");
 
         if (boardDto.getUser().getId().equals(user.getId())){
@@ -54,26 +62,28 @@ public class CommentController {
         }
 
 
-        return "board/detail";
+        return "redirect:/board/post/"+boardDto.getId();
     }
 
     @PostMapping("/post/{board_id}/comment/delete")
     public String commentDelete(Comment comment,Model model,@PathVariable Long board_id
             ,@AuthenticationPrincipal PrincipalDetails principalDetails){
-        User user = principalDetails.getUser();
-        String email = user.getEmail();
-        log.info("CommentController 내의 commentDelete부분에서의 현재 로그인된 유저의 email값 : "+email);
+
         commentService.commentDelete(comment);
-
-        Optional<Board> byId = boardRepository.findById(board_id);
-        Board board = byId.get();
-        BoardDto boardDto = BoardDto.builder()
-                .board(board)
-                .build();
-
-        if (boardDto.getUser().getId().equals(user.getId())){
-            model.addAttribute("writter",true);
-        }
-        return "board/detail";
+//        User user = principalDetails.getUser();
+//        String email = user.getEmail();
+//        log.info("CommentController 내의 commentDelete부분에서의 현재 로그인된 유저의 email값 : "+email);
+//        commentService.commentDelete(comment);
+//
+//        Optional<Board> byId = boardRepository.findById(board_id);
+//        Board board = byId.get();
+//        BoardDto boardDto = BoardDto.builder()
+//                .board(board)
+//                .build();
+//
+//        if (boardDto.getUser().getId().equals(user.getId())){
+//            model.addAttribute("writter",true);
+//        }
+        return "redirect:/board/post/"+board_id.toString();
     }
 }

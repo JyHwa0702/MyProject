@@ -26,7 +26,7 @@ public class Comment extends Time{
     @Column(columnDefinition = "TEXT",nullable = false, length = 500)
     private String content; // 댓글 내용
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 

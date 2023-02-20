@@ -77,9 +77,12 @@ public class BoardController {
         BoardDto boardDto = boardService.getPost(no);
         List<CommentDto> comments = boardDto.getComments();
 
+        log.info("해당 게시물 comments들 : "+comments.toString());
+
         /*댓글 관련*/
         if(comments != null && !comments.isEmpty()){
             model.addAttribute("comments",comments);
+
         }
         /*사용자 관련*/
         PrincipalDetails nowUser = (PrincipalDetails) authentication.getPrincipal();
@@ -103,6 +106,7 @@ public class BoardController {
         return "board/update";
     }
 
+
     //PutMapping을 통해서 게시물 수정부분 적용
     @PutMapping("/post/edit/{no}")
     public String update(@Valid BoardDto boardDto,BindingResult bindingResult,Authentication authentication){
@@ -118,7 +122,7 @@ public class BoardController {
 
         boardService.savePost(boardDto);
 
-        return "redirect:/board/list";
+        return "redirect:/board/post/{no}";
     }
 
     //게시물 삭제는 deletePost 메서드를 사용하여 간단하게 삭제할 수 있다.

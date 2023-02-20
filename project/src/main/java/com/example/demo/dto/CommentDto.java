@@ -23,9 +23,6 @@ public class CommentDto {
     private User user;
     private Board board;
 
-    private String username;
-    private Long boardId;
-
     /* Dto -> Entitiy */
     public Comment toEntity(){
         Comment comments = Comment.builder()
@@ -41,7 +38,7 @@ public class CommentDto {
     public CommentDto(Comment comment){
         this.id = comment.getId();
         this.content = comment.getContent();
-        this.username = comment.getUser().getUsername();
-        this.boardId = comment.getBoard().getId();
+        this.user = comment.getUser();
+        this.board = comment.getBoard();
     }
 }

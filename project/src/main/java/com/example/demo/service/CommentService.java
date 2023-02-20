@@ -23,24 +23,18 @@ public class CommentService {
 
 
     //Create
-    public void commentWrite(CommentDto commentDto,User user,Long board_id){
+    public void commentWrite(CommentDto commentDto,Long board_id){
         Optional<Board> byId = boardRepository.findById(board_id);
         Board board = byId.get();
-        BoardDto.BoardDtoBuilder boardDto = BoardDto.builder()
-                .board(board);
+        commentDto.setBoard(board);
 
-
-        Optional<User> findUser = userRepository.findById(user.getId());
-        Optional<Board> findBoard = boardRepository.findById(board_id);
-
-        commentDto.setBoard(findBoard.get());
-        commentDto.setUser(findUser.get());
+//        Optional<User> findUser = userRepository.findById(commentDto.getUser().getId());
+//        Optional<Board> findBoard = boardRepository.findById(board_id);
+//
+//        commentDto.setBoard(findBoard.get());
+//        commentDto.setUser(findUser.get());
         Comment comment = commentDto.toEntity();
         commentRepository.save(comment);
-
-
-
-
 
 //        return "/board/detail";
     }
