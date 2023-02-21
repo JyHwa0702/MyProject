@@ -40,8 +40,8 @@ public class CommentService {
     }
 
     //Delete
-    public void commentDelete(Comment comment){
-        commentRepository.delete(comment);
+    public void commentDeleteById(Long commentId){
+        commentRepository.deleteById(commentId);
 
 //        return "/board/detail";
     }

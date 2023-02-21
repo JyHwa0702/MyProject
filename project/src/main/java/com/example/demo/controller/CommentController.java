@@ -7,6 +7,7 @@ import com.example.demo.entity.Board;
 import com.example.demo.entity.Comment;
 import com.example.demo.entity.User;
 import com.example.demo.repository.BoardRepository;
+import com.example.demo.repository.CommentRepository;
 import com.example.demo.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class CommentController {
 
     private final CommentService commentService;
     private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
 
 
     //댓글 저장
@@ -65,11 +67,10 @@ public class CommentController {
         return "redirect:/board/post/"+boardDto.getId();
     }
 
-    @PostMapping("/post/{board_id}/comment/delete")
-    public String commentDelete(Comment comment,Model model,@PathVariable Long board_id
-            ,@AuthenticationPrincipal PrincipalDetails principalDetails){
+    @PostMapping("/post/comment/delete")
+    public String commentDelete(Long comment_id,Long board_id){
 
-        commentService.commentDelete(comment);
+        commentService.commentDeleteById(comment_id);
 //        User user = principalDetails.getUser();
 //        String email = user.getEmail();
 //        log.info("CommentController 내의 commentDelete부분에서의 현재 로그인된 유저의 email값 : "+email);
@@ -84,6 +85,6 @@ public class CommentController {
 //        if (boardDto.getUser().getId().equals(user.getId())){
 //            model.addAttribute("writter",true);
 //        }
-        return "redirect:/board/post/"+board_id.toString();
+        return "redirect:/board/post/"+board_id;
     }
 }

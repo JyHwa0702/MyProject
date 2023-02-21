@@ -89,9 +89,10 @@
                         <p th:text="${comment.content}"></p>
                         <p>작성자 : <span th:if="${comment.user != null}" th:text="${comment.user.username}"></span></p>
                         <span th:if="${comment.user != null and comment.user.id == #authentication.principal.id}">
-                        <button class="badge btn-warning">수정</button><span> | </span>
-
-                        <form th:action="@{'post/'+${board_id}+/comment/delete}" method="post">
+                        <button class="badge btn-warning">수정</button>
+                        <form th:action="@{/post/comment/delete}" method="post">
+                            <input type="hidden" name="comment_id" th:value="${comment.id}">
+                            <input type="hidden" name="board_id" th:value="${comment.board.id}">
                             <button class="badge btn-danger">삭제</button>
                         </form>
                         </span>
