@@ -68,7 +68,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <form th:action="@{'/post/'+${boardDto.id}+'/comment/write'}" method="post">
-                            <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="1" placeholder="댓글을 입력해주세요."></textarea>
+                            <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="1" placeholder="댓글을 입력해주세요." required></textarea>
                             <input type="hidden" name="board_id" th:value="${boardDto.id}">
                             <button type="submit" class="btn btn-dark mt-3">등록</button>
                         </form>

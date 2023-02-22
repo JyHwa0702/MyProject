@@ -9,6 +9,7 @@ import com.example.demo.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ public class EmailController {
     private final EmailService emailService;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/emailConfirm")
     public String emailConfirm(@Valid EmailDto emailDto, BindingResult bindingResult, Model model) {
@@ -63,8 +65,8 @@ public class EmailController {
 
         boolean equalsEmail = findEmail.equals(inputEmail);
         log.info("equalsEmail : "+String.valueOf(equalsEmail));
-        model.addAttribute("email",findEmail);
         if (equalsEmail){
+            model.addAttribute("email",findEmail);
             return "/user/OkFindPwd";
         }
 
@@ -77,7 +79,10 @@ public class EmailController {
         boolean comparePwd = password.equals(password2);
         log.info("비밀번호 1,2번 비교 값 : "+comparePwd);
         if (comparePwd){ //비밀번호 1,2번 일치로 변경할예정.
-            byEmail.get().changePwd(password);
+            log.info("비밀번호 변경할 비밀번호 : "+password);
+            String encodePwd = bCryptPasswordEncoder.encode(password);
+            User user = byEmail.get().changePwd(encodePwd);
+            userRepository.save(user);
             return "redirect:/user/login";
         } else{
             model.addAttribute("email",email);

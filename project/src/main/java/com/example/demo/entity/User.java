@@ -72,7 +72,8 @@ public class User extends Time{
     public void changeRole(Role role){
         this.role = role;
     }
-    public void changePwd(String password){
+    public User changePwd(String password){
         this.password = password;
+        return this;
     }
 }
