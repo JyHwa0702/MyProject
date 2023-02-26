@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.EmailDto;
-import com.example.demo.dto.UserDto;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
@@ -24,7 +23,6 @@ import java.util.Optional;
 public class EmailController {
 
     private final EmailService emailService;
-    private final UserService userService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -33,22 +31,38 @@ public class EmailController {
         if(bindingResult.hasErrors()){
             return "/user/findPwd";
         }
+
+
         String email = emailDto.getEmail();
-        Optional<User> byEmail = userRepository.findByEmail(email);
-        if (byEmail.isPresent()) {
-            emailService.sendSimpleMessage(email);
-            model.addAttribute("Message","인증코드를 해당 메일로 보냈습니다.");
-            model.addAttribute("codeConfirm",true);
+        String sendAuthCode = emailService.sendAuthCode(email);
 
+        switch (sendAuthCode){
+            case "1" :
+                model.addAttribute("Message", "인증코드를 해당 메일로 보냈습니다.");
+                model.addAttribute("codeConfirm", true);
+                model.addAttribute("email", email); // 입력한 email input 히든으로 넘겨줄 예정
 
-            model.addAttribute("email",email); // 입력한 email input 히든으로 넘겨줄 예
-            return "/user/findPwd";
-        } else if (byEmail.isEmpty()) {
-            model.addAttribute("Message","해당 이메일 유저가 존재하지 않습니다.");
-//            model.addAttribute("codeConfirm",false);
-            return "/user/findPwd";
+            case "2" :
+                model.addAttribute("Message", "해당 이메일 유저가 존재하지 않습니다.");
+
+            case "3" :
+                model.addAttribute("Message","sendAuthCode에서 에러 발생.");
         }
-        return "/";
+
+//        Optional<User> byEmail = userRepository.findByEmail(email);
+//        if (byEmail.isPresent()) {
+//            emailService.sendSimpleMessage(email);
+//            model.addAttribute("Message","인증코드를 해당 메일로 보냈습니다.");
+//            model.addAttribute("codeConfirm",true);
+//
+//
+//            model.addAttribute("email",email); // 입력한 email input 히든으로 넘겨줄 예
+//            return "/user/findPwd";
+//        } else if (byEmail.isEmpty()) {
+//            model.addAttribute("Message","해당 이메일 유저가 존재하지 않습니다.");
+//            return "/user/findPwd";
+//        }
+        return "/user/findPwd";
     }
 
 
@@ -56,6 +70,7 @@ public class EmailController {
     public String emailConfirmCode(String inputEmail,String authKey,Model model) throws ChangeSetPersister.NotFoundException {
 
         Optional<User> byEmail = emailService.getUser(inputEmail,authKey,model);
+
         log.info("email Controller에서의 byemail : " + byEmail.get());
         String findEmail = byEmail.get().getEmail();
         log.info("findEmail = "+ findEmail);
@@ -90,15 +105,5 @@ public class EmailController {
             return "/emailConfirm/code/ok";
         }
     }
-
-
-
-//    private final EmailService emailService;
-//
-//    @PostMapping("/emailConfirm")
-//    public ResponseEntity<Void> mailConfirm( @Valid EmailDto emailDto) throws MessagingException, UnsupportedEncodingException{
-//        log.info("emailDto.getEmail = "+emailDto.getEmail());
-//        emailService.authEmail(emailDto);
-//        return ResponseEntity.ok().build();
 
 }

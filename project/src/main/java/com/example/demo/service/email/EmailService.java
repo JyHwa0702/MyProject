@@ -28,14 +28,32 @@ public class EmailService {
     private final UserRepository userRepository;
     private final EmailProperties emailProperties;
 
+
+    @Transactional
+    public String sendAuthCode(String email) {
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        if (byEmail.isPresent()) {
+            sendSimpleMessage(email);
+
+            return "1";
+//            model.addAttribute("Message", "인증코드를 해당 메일로 보냈습니다.");
+//            model.addAttribute("codeConfirm", true);
+//            model.addAttribute("email", email); // 입력한 email input 히든으로 넘겨줄 예정
+        } else if (byEmail.isEmpty()) {
+//            model.addAttribute("Message", "해당 이메일 유저가 존재하지 않습니다.");
+            return "2";
+        }
+
+        return "3";
+    }
+
+
     @Transactional
     public void sendSimpleMessage(String email){
 
         //임의의 authKey 생성
         Random random = new Random();
         String authKey = String.valueOf(random.nextInt(888888)+111111);
-
-//        emailDto.setAuthKey(authKey);
         String subject ="TRIP VIEW 코드인증메일입니다.";
         String text ="코드번호는 "+authKey+" 입니다. 입력칸에 입력해주세요.";
         SimpleMailMessage message = createMessage(email, subject,text);
@@ -44,10 +62,10 @@ public class EmailService {
         try{
             emailSender.send(message);
         }catch (MailException es ){
+            log.error("sendSimplemessage 메소드 실행 실패 email:{}",email);
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
-//        return authKey;
     }
 
     @Transactional
@@ -61,70 +79,32 @@ public class EmailService {
     }
 
     @Transactional
-    public String verifyEmail(String authKey) throws ChangeSetPersister.NotFoundException{
-        String memberEmail = redisUtil.getData(authKey);
+    public Optional<User> verifyEmail(String authKey) throws ChangeSetPersister.NotFoundException{
+        String email = redisUtil.getData(authKey);
 
-        if(memberEmail == null){
+        if(email == null){
             throw new ChangeSetPersister.NotFoundException();
         }
         redisUtil.deleteData(authKey);
-//        return authKey;
-        return authKey;
+
+        Optional<User> user = userRepository.findByEmail(email);
+
+        return user;
     }
 
 
-    public Optional<User> getUser(String email,String authKey,Model model) {
-        String verifyAuthKey = null;
-        Optional<User> userByEmail = null;
-        try{
-            String keyEmail = redisUtil.getData(authKey);
-            log.info("try안에서의 keyEmail : "+ keyEmail);
-            userByEmail = userRepository.findByEmail(keyEmail);
-            log.info("try안에서의 userByEmail : "+ userByEmail);
-            verifyAuthKey = verifyEmail(authKey);
-        }catch(ChangeSetPersister.NotFoundException e){
-            model.addAttribute("잘못된 코드입니다. 코드를 확인해주세요","codeMessage");
+    public Optional<User> getUser(String email,String authKey,Model model) throws ChangeSetPersister.NotFoundException {
+
+        String keyEmail = redisUtil.getData(authKey);
+        log.info("try안에서의 keyEmail : "+ keyEmail);
+
+        Optional<User> user = verifyEmail(authKey);
+
+        if (!user.isPresent()){
+            throw new ChangeSetPersister.NotFoundException();
         }
-        log.info("try,catch이후의 key값 : "+verifyAuthKey);
-        log.info("try,catch이후의 key값 : "+verifyAuthKey);
+        return user;
 
-        return userByEmail;
     }
-
-
-
-//    private final JavaMailSender javaMailSender;
-//
-//
-//    /*
-//    * 이메일 전송
-//    * */
-//
-//    @Transactional
-//    public void authEmail(EmailDto emailDto){
-//
-//        //임의의 authKey 생성
-//        Random random = new Random();
-//        String authKey = String.valueOf(random.nextInt(888888)+111111);
-//
-//        //이메일 발송
-//        sendAuthEmail(emailDto.getEmail(),authKey);
-//    }
-//
-//    private void sendAuthEmail(String email,String authKey){
-//        String subject = "제목";
-//        String text = "당신의 인증번호는 "+authKey+ "입니다.<br/>";
-//
-//        try{
-//            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-//            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true,"utf-8");
-//            helper.setTo(email);
-//            helper.setSubject(subject);
-//            helper.setText(text,true); //포함된 텍스트가 HTML이라는 의미로 true
-//            javaMailSender.send(mimeMessage);
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
 

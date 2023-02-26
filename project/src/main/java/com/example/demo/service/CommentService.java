@@ -23,7 +23,7 @@ public class CommentService {
 
 
     //Create
-    public void commentWrite(CommentDto commentDto,Long board_id){
+    public void saveComment(CommentDto commentDto,Long board_id){
         Optional<Board> byId = boardRepository.findById(board_id);
         Board board = byId.get();
         commentDto.setBoard(board);
@@ -40,7 +40,7 @@ public class CommentService {
     }
 
     //Delete
-    public void commentDeleteById(Long commentId){
+    public void deleteCommentById(Long commentId){
         commentRepository.deleteById(commentId);
 
 //        return "/board/detail";
