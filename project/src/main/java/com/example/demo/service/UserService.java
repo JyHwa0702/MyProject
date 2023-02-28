@@ -21,8 +21,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public User getInfoByEmail(PrincipalDetails principalDetails){
@@ -47,7 +46,7 @@ public class UserService {
 
     @Transactional
     public void saveUser(UserDto userDto){
-        String encodePwd = bCryptPasswordEncoder.encode(userDto.getPassword());
+        String encodePwd = passwordEncoder.encode(userDto.getPassword());
         userDto.setPassword(encodePwd);
         User user = User.userDetailRegister()
                 .email(userDto.getEmail())
@@ -61,10 +60,8 @@ public class UserService {
 
     @Transactional
     public void pwdChange(User user,String password){
-        String changePwd = bCryptPasswordEncoder.encode(password);
+        String changePwd = passwordEncoder.encode(password);
         user.changePwd(changePwd);
     }
 
-//    @Transactional
-//    public void findPw()
 }

@@ -34,7 +34,7 @@ public class Board extends Time{
     @Column(columnDefinition = "integer default 0")
     private int view;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

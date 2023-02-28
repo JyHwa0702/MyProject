@@ -1,7 +1,6 @@
 package com.example.demo.service.email;
 
 import com.example.demo.config.auth.EmailProperties;
-import com.example.demo.dto.EmailDto;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.redis.RedisUtil;
@@ -33,14 +32,10 @@ public class EmailService {
     public String sendAuthCode(String email) {
         Optional<User> byEmail = userRepository.findByEmail(email);
         if (byEmail.isPresent()) {
-            sendSimpleMessage(email);
+            sendMail(email);
 
             return "1";
-//            model.addAttribute("Message", "인증코드를 해당 메일로 보냈습니다.");
-//            model.addAttribute("codeConfirm", true);
-//            model.addAttribute("email", email); // 입력한 email input 히든으로 넘겨줄 예정
         } else if (byEmail.isEmpty()) {
-//            model.addAttribute("Message", "해당 이메일 유저가 존재하지 않습니다.");
             return "2";
         }
 
@@ -49,7 +44,7 @@ public class EmailService {
 
 
     @Transactional
-    public void sendSimpleMessage(String email){
+    public void sendMail(String email){
 
         //임의의 authKey 생성
         Random random = new Random();
@@ -61,7 +56,7 @@ public class EmailService {
 
         try{
             emailSender.send(message);
-        }catch (MailException es ){
+        }catch (MailException es){
             log.error("sendSimplemessage 메소드 실행 실패 email:{}",email);
             es.printStackTrace();
             throw new IllegalArgumentException();
@@ -86,7 +81,6 @@ public class EmailService {
             throw new ChangeSetPersister.NotFoundException();
         }
         redisUtil.deleteData(authKey);
-
         Optional<User> user = userRepository.findByEmail(email);
 
         return user;

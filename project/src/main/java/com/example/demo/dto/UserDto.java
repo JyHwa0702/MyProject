@@ -46,7 +46,7 @@ public class UserDto {
     
 
     @Transactional
-    public UserDto update(String username, String picture){
+    public UserDto update(String username){
         this.username = username;
         return this;
     }

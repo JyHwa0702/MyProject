@@ -35,34 +35,30 @@ public class CommentController {
 
         Optional<Board> optionalBoard = boardRepository.findById(board_id);
 
-        if(optionalBoard.isEmpty()){
+        if(!optionalBoard.isPresent()){
             log.error("게시물을 찾을 수 없습니다. boardId : {}",board_id);
+            return "redirect:/board";
         }
 
 
         Board board = optionalBoard.get();
         User user = principalDetails.getUser();
-
         log.info("CommentController - saveComment : 로그인 유저 email : {}",user.getEmail());
-
         commentDto.setUser(user);
-        commentService.saveComment(commentDto,board_id);
+        commentService.saveComment(commentDto,board);
 
         if (board.getUser().getId().equals(user.getId())){
             model.addAttribute("writer",true);
             log.info("CommentController - saveComment : writer 로그인");
         }
 
-
         log.info("CommentController 내 댓글 저장로직 후");
-
-
 
         return "redirect:/board/post/"+board.getId();
     }
 
     @PostMapping("/post/comment/delete")
-    public String delteCommentById(Long comment_id,Long board_id){
+    public String deleteCommentById(Long comment_id,Long board_id){
 
         commentService.deleteCommentById(comment_id);
 

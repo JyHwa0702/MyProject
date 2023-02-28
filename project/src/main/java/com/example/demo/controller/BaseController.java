@@ -37,7 +37,6 @@ public class BaseController {
         if(user != null){
 
             model.addAttribute("userName",user.getName());
-            model.addAttribute("userImg",user.getPicture());
         }
 
         return "index";

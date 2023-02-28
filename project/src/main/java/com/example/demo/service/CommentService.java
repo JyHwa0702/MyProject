@@ -18,49 +18,27 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
 
-    //Create
-    public void saveComment(CommentDto commentDto,Long board_id){
-        Optional<Board> byId = boardRepository.findById(board_id);
-        Board board = byId.get();
+    //댓글 생성
+    public void saveComment(CommentDto commentDto,Board board) {
+
+        userRepository.findById(commentDto.getUser().getId()).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 없습니다. id = " + commentDto.getUser().getId())
+        );
+
         commentDto.setBoard(board);
-
-//        Optional<User> findUser = userRepository.findById(commentDto.getUser().getId());
-//        Optional<Board> findBoard = boardRepository.findById(board_id);
-//
-//        commentDto.setBoard(findBoard.get());
-//        commentDto.setUser(findUser.get());
         Comment comment = commentDto.toEntity();
         commentRepository.save(comment);
-
-//        return "/board/detail";
     }
 
-    //Delete
+    //댓글 삭제
     public void deleteCommentById(Long commentId){
         commentRepository.deleteById(commentId);
 
-//        return "/board/detail";
     }
 
-    /* CREATE */
-//    @Transactional
-//    public Long commentSave(String email, Long id, CommentDto commentDto){
-//        Optional<User> user = userRepository.findByEmail(email);
-//        Board board = boardRepository.findById(id).orElseThrow(() ->
-//                new IllegalArgumentException("댓글 쓰기 실패 : 해당 게시글이 존재하지 않습니다." + id));
-//
-//        commentDto.setUser(user.get());
-//        commentDto.setBoard(board);
-//
-//        Comment comment = commentDto.toEntity();
-//        commentRepository.save(comment);
-//
-//        return commentDto.getId();
-//
-//    }
 
 }

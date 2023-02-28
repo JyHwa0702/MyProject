@@ -38,7 +38,6 @@ public class BoardController {
     //글쓰는 페이지
     @GetMapping("/post")
     public String getWritePage(Authentication authentication,Model model){
-
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
 
         model.addAttribute("userId",user.getId());
@@ -58,7 +57,7 @@ public class BoardController {
 
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
         boardDto.setUser(user);
-        boardService.savePost(boardDto);
+        boardService.saveBoard(boardDto);
 
         return "redirect:/board/list";
     }
@@ -66,7 +65,7 @@ public class BoardController {
     //게시물 상세 페이지
     @GetMapping("/post/{no}")
     public String getPost(@PathVariable Long no, Model model, Authentication authentication){
-        BoardDto boardDto = boardService.getPost(no);
+        BoardDto boardDto = boardService.getBoard(no);
         List<CommentDto> comments = boardDto.getComments();
 
         log.info("해당 게시물 comments들 : "+comments.toString());
@@ -91,7 +90,7 @@ public class BoardController {
     //게시물 수정 페이지
     @GetMapping("/post/edit/{no}")
     public String getEditPage(@PathVariable Long no, Model model){
-        BoardDto boardDto = boardService.getPost(no);
+        BoardDto boardDto = boardService.getBoard(no);
 
         model.addAttribute("boardDto",boardDto);
 
@@ -109,7 +108,7 @@ public class BoardController {
 
         User user = ((PrincipalDetails) authentication.getPrincipal()).getUser();
         boardDto.setUser(user);
-        boardService.savePost(boardDto);
+        boardService.saveBoard(boardDto);
 
         return "redirect:/board/post/{no}";
     }

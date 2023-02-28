@@ -4,55 +4,41 @@ import com.example.demo.config.auth.PrincipalDetails;
 import com.example.demo.dto.EmailDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import com.example.demo.validator.UserDtoValidator;
 import com.example.demo.validator.updateUserValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.Random;
-
 @Controller
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
 
     private final UserDtoValidator userDtoValidator;
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserService userService;
 
-    @GetMapping("/user/login")
+    @GetMapping("/login")
     public String loginForm() {
-
-        log.info("get로그인");
         return "user/login";
-
     }
 
-    @GetMapping("/user/login/fail")
-    public String loginFailForm() {
-        return "user/loginFail";
-    }
-
-    @GetMapping("/user/join")
+    @GetMapping("/join")
     public String joinForm(Model model) {
         model.addAttribute("userDto", new UserDto());
-        log.info("get회원가입");
         return "user/join";
     }
 
     @PostMapping("/join")
-    public String join(@Valid UserDto userDto, BindingResult bindingResult, Model model) {
+    public String join(@Validated UserDto userDto, BindingResult bindingResult, Model model) {
 
         //유저 양식 검사
         if (bindingResult.hasErrors()) {
@@ -73,7 +59,23 @@ public class UserController {
         return "redirect:/user/login";
     }
 
-    @GetMapping("/user/update")
+    @PutMapping("/update")
+    public String update(@Validated(updateUserValidation.class) UserDto userDto, BindingResult bindingResult) {
+
+        //유저 양식 검사
+        if (bindingResult.hasFieldErrors()) {
+            return "user/update";
+        }
+        userService.updateUser(userDto);
+        return "index";
+    }
+
+    @GetMapping("/login/fail")
+    public String loginFailForm() {
+        return "user/loginFail";
+    }
+
+    @GetMapping("/update")
     public String updateForm(Authentication authentication, Model model) {
 
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
@@ -82,29 +84,10 @@ public class UserController {
         return "user/update";
     }
 
-    @PutMapping("/user/update")
-    public String update(@Validated(updateUserValidation.class) UserDto userDto, BindingResult bindingResult) {
-        log.info("Controller update 들어옴");
-        //유저 양식 검사
-        if (bindingResult.hasFieldErrors()) {
-            log.info("bindingResult 실행됨");
-            return "user/update";
-        }
-        log.info("userService update 전");
-        userService.updateUser(userDto);
-        log.info("userService update 후");
-        return "index";
-    }
-
-    @GetMapping("/user/findPwd")
+    @GetMapping("/findPwd")
     public String findPwd(Model model) {
         model.addAttribute("emailDto", new EmailDto());
-
         model.addAttribute("codeConfirm",false);
         return "/user/findPwd";
     }
 }
-
-
-
-

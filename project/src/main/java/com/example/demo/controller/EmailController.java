@@ -34,70 +34,52 @@ public class EmailController {
 
 
         String email = emailDto.getEmail();
-        String sendAuthCode = emailService.sendAuthCode(email);
+        String authCode = emailService.sendAuthCode(email);
 
-        switch (sendAuthCode){
+        switch (authCode){
             case "1" :
                 model.addAttribute("Message", "인증코드를 해당 메일로 보냈습니다.");
                 model.addAttribute("codeConfirm", true);
                 model.addAttribute("email", email); // 입력한 email input 히든으로 넘겨줄 예정
+                break;
 
             case "2" :
                 model.addAttribute("Message", "해당 이메일 유저가 존재하지 않습니다.");
+                break;
 
             case "3" :
                 model.addAttribute("Message","sendAuthCode에서 에러 발생.");
+                break;
         }
 
-//        Optional<User> byEmail = userRepository.findByEmail(email);
-//        if (byEmail.isPresent()) {
-//            emailService.sendSimpleMessage(email);
-//            model.addAttribute("Message","인증코드를 해당 메일로 보냈습니다.");
-//            model.addAttribute("codeConfirm",true);
-//
-//
-//            model.addAttribute("email",email); // 입력한 email input 히든으로 넘겨줄 예
-//            return "/user/findPwd";
-//        } else if (byEmail.isEmpty()) {
-//            model.addAttribute("Message","해당 이메일 유저가 존재하지 않습니다.");
-//            return "/user/findPwd";
-//        }
         return "/user/findPwd";
     }
 
 
     @PostMapping("/emailConfirm/code")
-    public String emailConfirmCode(String inputEmail,String authKey,Model model) throws ChangeSetPersister.NotFoundException {
+    public String confirmEmailCode(String inputEmail,String authKey,Model model) throws ChangeSetPersister.NotFoundException {
 
-        Optional<User> byEmail = emailService.getUser(inputEmail,authKey,model);
+        Optional<User> user = emailService.getUser(inputEmail,authKey,model);
 
-        log.info("email Controller에서의 byemail : " + byEmail.get());
-        String findEmail = byEmail.get().getEmail();
-        log.info("findEmail = "+ findEmail);
-
-        log.info("requestEmail = "+ inputEmail);
-
-
-        boolean equalsEmail = findEmail.equals(inputEmail);
-        log.info("equalsEmail : "+String.valueOf(equalsEmail));
-        if (equalsEmail){
-            model.addAttribute("email",findEmail);
-            return "/user/OkFindPwd";
+        if(user.isPresent()){
+            User foundUser = user.get();
+            if (foundUser.getEmail().equals(inputEmail)){
+                model.addAttribute("email",foundUser);
+                return "/user/OkFindPwd";
+            }
         }
-
         return "/user/findPwd";
     }
 
     @PutMapping("/emailConfirm/code/ok")
-    public String OkfindPwd(String email, String password,String password2,Model model){
+    public String changePassword(String email, String password,String password2,Model model){
         Optional<User> byEmail = userRepository.findByEmail(email);
-        boolean comparePwd = password.equals(password2);
-        log.info("비밀번호 1,2번 비교 값 : "+comparePwd);
-        if (comparePwd){ //비밀번호 1,2번 일치로 변경할예정.
+
+        if (byEmail.isPresent()){ //비밀번호 1,2번 일치로 변경할예정.
             log.info("비밀번호 변경할 비밀번호 : "+password);
             String encodePwd = bCryptPasswordEncoder.encode(password);
-            User user = byEmail.get().changePwd(encodePwd);
-            userRepository.save(user);
+            User updateUser = byEmail.get().changePwd(encodePwd);
+            userRepository.save(updateUser);
             return "redirect:/user/login";
         } else{
             model.addAttribute("email",email);
@@ -107,3 +89,4 @@ public class EmailController {
     }
 
 }
+

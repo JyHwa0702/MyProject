@@ -25,8 +25,6 @@ public class BoardDto {
 
     @NotBlank(message = "내용은 필수로 입력해주세요.")
     private String content;
-
-
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private int view;
