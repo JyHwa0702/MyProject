@@ -36,9 +36,8 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-		implementation 'javax.mail:mail:1.4.7'
-	implementation 'org.springframework:spring-context-support:6.0.2'
-//	compileOnly("org.springframework.boot:spring-boot-devtools")
+	implementation 'javax.mail:mail:1.4.7'
+	implementation 'org.springframework:spring-context-support'
 }
 
 tasks.named('test') {

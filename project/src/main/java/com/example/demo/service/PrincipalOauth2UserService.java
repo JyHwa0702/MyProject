@@ -22,11 +22,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
+   private final UserRepository userRepository;
+   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest)throws OAuth2AuthenticationException{
@@ -55,14 +56,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         Optional<User> byEmail = userRepository.findByEmail(email);
 
-//        User user = byEmail.get();
-        //DB에 없는 사용자라면 회원가입처리
-//        if(user == null){
-//
-//           user = User.oauth2Register()
-//                    .email(email).username(username).password(password).role(role)
-//                    .provider(provider).providerId(providerId)
-//                    .build();
 
         if(byEmail.isEmpty()){
             byEmail = Optional.ofNullable(User.oauth2Register()
