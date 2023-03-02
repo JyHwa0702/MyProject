@@ -45,7 +45,7 @@ public class SecurityConfig {
                     .loginPage("/user/login") //인증이 필요한 URL에 접근하면 "/user/login"으로 이동.
                     .usernameParameter("email")
                     .passwordParameter("password")
-                    .loginProcessingUrl("/login") //로그인을 처리한 URL입력
+                    .loginProcessingUrl("/user/login") //로그인을 처리한 URL입력
                     .defaultSuccessUrl("/")
                     .failureUrl("/user/login/fail")
 
@@ -62,8 +62,7 @@ public class SecurityConfig {
                 .userInfoEndpoint()  //로그인 성공 후 사용자정보를 가져온다.
                 .userService(principalOauth2UserService);
 
-
-        //OAuth2 로그인 기능에 대한 여러 설정의 진입점.
+                //OAuth2 로그인 기능에 대한 여러 설정의 진입점.
                 //userInfoEndpoint : 로그인이 성공된 이후 사용자 정보를 가져올때 설정담당.
                 //userSErvice : 소셜 로그인 성공시 후속조치 진행할 UserService 인터페이스 구현체등록
                 //사용자 정보를 가져온 정보를 기반으로 추가적으로 진행하고자 하는 기능들을 명시가능.

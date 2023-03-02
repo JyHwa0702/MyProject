@@ -16,7 +16,7 @@
 
 <section class="login-wrap">
 <!--    <p sec:authentication="principal"></p>-->
-    <form method="post" th:action=@{/user/login} sec:authorize="isAnonymous">
+    <form method="post" th:action="@{/user/login}" sec:authorize="isAnonymous">
 
         <H2>로그인</H2>
         <div class="login-id-wrap">

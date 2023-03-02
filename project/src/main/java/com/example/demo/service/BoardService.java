@@ -26,7 +26,7 @@ public class BoardService {
 
     @Transactional
     public List<BoardDto> getBoardlist(Integer pageNum){
-        PageRequest pageable = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by("createDate").descending());
+        PageRequest pageable = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by("createdDate").descending());
         Page<Board> page = boardRepository.findAll(pageable);
         List<Board> boards = page.getContent();
         List<BoardDto> boardDtoList = new ArrayList<>();

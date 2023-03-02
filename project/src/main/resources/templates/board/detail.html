@@ -24,7 +24,7 @@
 
         <table class ="table table-bordered">
             <thead>
-            <caption>글 읽기</caption>
+<!--            <caption>글 읽기</caption>-->
             </thead>
             <tbody>
             <tr>
@@ -48,7 +48,7 @@
         </table>
 
         <!-- 수정/삭제 -->
-        <div th:if="${writter}">
+        <div th:if="${writer}">
             <a th:href="'/board/post/edit/' + ${boardDto.id}">
                 <button class="btn btn-primary">수정</button>
             </a>
