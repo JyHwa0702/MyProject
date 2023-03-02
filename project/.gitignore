@@ -25,6 +25,10 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+# Project exclude paths
+.gradle
+.idea
 application-oauth2.properties
 
 ### NetBeans ###
