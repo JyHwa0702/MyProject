@@ -7,3 +7,6 @@ study/
 dasd
 hello_spring/
 hello-spring2/
+project/src/main/resources/application-oauth2.properties
+project/src/main/resources/application.properties
+project/src/main/resources/email.properties
