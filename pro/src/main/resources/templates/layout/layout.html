@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <th:block th:replace="fragment/header :: headerFragment"></th:block>
+</head>
+<body >
+<div id="wrapper">
+    <nav>
+        <li>
+            <button><a th:href="@{/signup}">회원가입</a></button>
+            <button><a th:href="@{/signin}">로그인</a></button>
+            <button onclick='logout()'>로그아웃</button>
+            <button><a th:href="@{/list}">글 목록</a></button>
+        </li>
+    </nav>
+    <div id="content">
+        <th:block layout:fragment="content"></th:block>
+    </div>
+</div>
+<th:block th:replace="fragment/script :: script"></th:block>
+<th:block layout:fragment="script"></th:block>
+
+<script th:inline="javascript">
+
+</script>
+</body>
+</html>
