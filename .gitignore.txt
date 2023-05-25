@@ -1,7 +1,9 @@
 ###잡다한 파일들 다 삭제###
+ExamTest/
 fir/
 first/
 hello-spring/
+lolProject/
 pro/
 study/
 dasd
@@ -10,6 +12,6 @@ hello-spring2/
 project/src/main/resources/application-oauth2.properties
 project/src/main/resources/application.properties
 project/src/main/resources/email.properties
-ExamTest/
+
 
 LolData/src/main/resources/riotApiKey.properties
