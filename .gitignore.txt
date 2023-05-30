@@ -9,9 +9,9 @@ study/
 dasd
 hello_spring/
 hello-spring2/
-OauthLogin&Logout_Board/src/main/resources/application-oauth2.properties
-OauthLogin&Logout_Board/src/main/resources/application.properties
-OauthLogin&Logout_Board/src/main/resources/email.properties
+Oauth_Board/src/main/resources/application-oauth2.properties
+Oauth_Board/src/main/resources/application.properties
+Oauth_Board/src/main/resources/email.properties
 
 
 LoLData/src/main/resources/riotApiKey.properties

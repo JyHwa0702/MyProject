@@ -1,0 +1,1747 @@
+Index: ../study/jpa-basic/src/main/java/hellojpa/Item.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/Item.java b/../study/jpa-basic/src/main/java/hellojpa/Item.java
+new file mode 100644
+--- /dev/null	(date 1667792054538)
++++ b/../study/jpa-basic/src/main/java/hellojpa/Item.java	(date 1667792054538)
+@@ -0,0 +1,39 @@
++package hellojpa;
++
++import jakarta.persistence.*;
++
++@Entity
++@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
++@DiscriminatorColumn
++public abstract class Item {
++
++    @Id @GeneratedValue
++    private Long id;
++
++    private String name;
++    private int price;
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public int getPrice() {
++        return price;
++    }
++
++    public void setPrice(int price) {
++        this.price = price;
++    }
++}
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/Category.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/Category.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Category.java
+new file mode 100644
+--- /dev/null	(date 1667372068184)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Category.java	(date 1667372068184)
+@@ -0,0 +1,29 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.*;
++
++import java.util.ArrayList;
++import java.util.List;
++
++@Entity
++public class Category {
++
++    @Id
++    @GeneratedValue
++    private Long id;
++
++    private String name;
++
++    @ManyToOne
++    @JoinColumn(name = "PARENT_ID")
++    private Category parent;
++
++    @OneToMany(mappedBy = "parent")
++    private List<Category> child = new ArrayList<>();
++
++    @ManyToMany
++    @JoinTable(name = "CATEGORY_ITEM",
++            joinColumns = @JoinColumn(name = "CATEGORY_ID"),
++            inverseJoinColumns = @JoinColumn(name = "ITEM_ID"))
++    private List<Item> items = new ArrayList<>();
++}
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/Delivery.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/Delivery.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Delivery.java
+new file mode 100644
+--- /dev/null	(date 1667799564679)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Delivery.java	(date 1667799564679)
+@@ -0,0 +1,21 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.Entity;
++import jakarta.persistence.GeneratedValue;
++import jakarta.persistence.Id;
++import jakarta.persistence.OneToOne;
++
++@Entity
++public class Delivery extends BaseEntity{
++
++    @Id @GeneratedValue
++    private Long id;
++
++    @OneToOne(mappedBy = "delivery")
++    private Order order;
++
++    private String city;
++    private String street;
++    private String zipcode;
++    private DeliveryStatus status;
++}
+Index: ../study/jpashop/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/pom.xml b/../study/jpashop/pom.xml
+new file mode 100644
+--- /dev/null	(date 1666518794101)
++++ b/../study/jpashop/pom.xml	(date 1666518794101)
+@@ -0,0 +1,35 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>org.example</groupId>
++    <artifactId>jpashop</artifactId>
++    <version>1.0-SNAPSHOT</version>
++
++    <properties>
++        <maven.compiler.source>11</maven.compiler.source>
++        <maven.compiler.target>11</maven.compiler.target>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++
++    <dependencies>
++        <!-- JPA 하이버네이트 -->
++        <dependency>
++            <groupId>org.hibernate</groupId>
++            <artifactId>hibernate-core</artifactId>
++            <version>6.1.4.Final</version>
++        </dependency>
++
++        <!-- H2 데이터베이스 -->
++        <dependency>
++            <groupId>com.h2database</groupId>
++            <artifactId>h2</artifactId>
++            <version>2.1.214</version>
++        </dependency>
++
++    </dependencies>
++
++</project>
++
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/DeliveryStatus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/DeliveryStatus.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/DeliveryStatus.java
+new file mode 100644
+--- /dev/null	(date 1667371693208)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/DeliveryStatus.java	(date 1667371693208)
+@@ -0,0 +1,4 @@
++package jpabook.jpashop.domain;
++
++public enum DeliveryStatus {
++}
+Index: ../study/jpashop/.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/.idea/misc.xml b/../study/jpashop/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1666518738125)
++++ b/../study/jpashop/.idea/misc.xml	(date 1666518738125)
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="MavenProjectsManager">
++    <option name="originalFiles">
++      <list>
++        <option value="$PROJECT_DIR$/pom.xml" />
++      </list>
++    </option>
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../study/jpa-basic/src/main/java/hellojpa/Album.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/Album.java b/../study/jpa-basic/src/main/java/hellojpa/Album.java
+new file mode 100644
+--- /dev/null	(date 1667553803933)
++++ b/../study/jpa-basic/src/main/java/hellojpa/Album.java	(date 1667553803933)
+@@ -0,0 +1,11 @@
++package hellojpa;
++
++import jakarta.persistence.DiscriminatorValue;
++import jakarta.persistence.Entity;
++
++@Entity
++@DiscriminatorValue("A")
++public class Album extends Item{
++
++    private String artist;
++}
+Index: ../study/jpashop/.idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/.idea/compiler.xml b/../study/jpashop/.idea/compiler.xml
+new file mode 100644
+--- /dev/null	(date 1666518794750)
++++ b/../study/jpashop/.idea/compiler.xml	(date 1666518794750)
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <annotationProcessing>
++      <profile name="Maven default annotation processors profile" enabled="true">
++        <sourceOutputDir name="target/generated-sources/annotations" />
++        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
++        <outputRelativeToContentRoot value="true" />
++        <module name="jpashop" />
++      </profile>
++    </annotationProcessing>
++  </component>
++</project>
+\ No newline at end of file
+Index: ../study/jpa-basic/src/main/java/hellojpa/Movie.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/Movie.java b/../study/jpa-basic/src/main/java/hellojpa/Movie.java
+new file mode 100644
+--- /dev/null	(date 1667791508362)
++++ b/../study/jpa-basic/src/main/java/hellojpa/Movie.java	(date 1667791508362)
+@@ -0,0 +1,28 @@
++package hellojpa;
++
++import jakarta.persistence.DiscriminatorValue;
++import jakarta.persistence.Entity;
++
++@Entity
++@DiscriminatorValue("M")
++public class Movie extends Item{
++
++    private String director;
++    private String actor;
++
++    public String getDirector() {
++        return director;
++    }
++
++    public void setDirector(String director) {
++        this.director = director;
++    }
++
++    public String getActor() {
++        return actor;
++    }
++
++    public void setActor(String actor) {
++        this.actor = actor;
++    }
++}
+Index: ../study/jpashop/.idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/.idea/.gitignore b/../study/jpashop/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1666518743646)
++++ b/../study/jpashop/.idea/.gitignore	(date 1666518743646)
+@@ -0,0 +1,3 @@
++# Default ignored files
++/shelf/
++/workspace.xml
+Index: ../study/jpa-basic/src/main/java/hellojpa/Book.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/Book.java b/../study/jpa-basic/src/main/java/hellojpa/Book.java
+new file mode 100644
+--- /dev/null	(date 1667553803930)
++++ b/../study/jpa-basic/src/main/java/hellojpa/Book.java	(date 1667553803930)
+@@ -0,0 +1,12 @@
++package hellojpa;
++
++import jakarta.persistence.DiscriminatorValue;
++import jakarta.persistence.Entity;
++
++@Entity
++@DiscriminatorValue("B")
++public class Book extends Item {
++
++    private String author;
++    private String isbn;
++}
+Index: ../study/jpa-basic/src/main/java/hellojpa/BaseEntity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/BaseEntity.java b/../study/jpa-basic/src/main/java/hellojpa/BaseEntity.java
+new file mode 100644
+--- /dev/null	(date 1667796632383)
++++ b/../study/jpa-basic/src/main/java/hellojpa/BaseEntity.java	(date 1667796632383)
+@@ -0,0 +1,50 @@
++package hellojpa;
++
++import jakarta.persistence.Column;
++import jakarta.persistence.MappedSuperclass;
++
++import java.time.LocalDateTime;
++
++@MappedSuperclass
++public abstract class BaseEntity {
++
++    @Column(name = "INSERT_MEMBER")
++    private String createdBy;
++    private LocalDateTime createdDate;
++
++    @Column(name = "UPDATE_MEMBER")
++    private String lastModifiedBy;
++    private LocalDateTime lastModifiedDate;
++
++    public String getCreatedBy() {
++        return createdBy;
++    }
++
++    public void setCreatedBy(String createdBy) {
++        this.createdBy = createdBy;
++    }
++
++    public LocalDateTime getCreatedDate() {
++        return createdDate;
++    }
++
++    public void setCreatedDate(LocalDateTime createdDate) {
++        this.createdDate = createdDate;
++    }
++
++    public String getLastModifiedBy() {
++        return lastModifiedBy;
++    }
++
++    public void setLastModifiedBy(String lastModifiedBy) {
++        this.lastModifiedBy = lastModifiedBy;
++    }
++
++    public LocalDateTime getLastModifiedDate() {
++        return lastModifiedDate;
++    }
++
++    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
++        this.lastModifiedDate = lastModifiedDate;
++    }
++}
+Index: ../study/jpashop/.idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/.idea/vcs.xml b/../study/jpashop/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1666518794772)
++++ b/../study/jpashop/.idea/vcs.xml	(date 1666518794772)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/Book.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/Book.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Book.java
+new file mode 100644
+--- /dev/null	(date 1667799074942)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Book.java	(date 1667799074942)
+@@ -0,0 +1,26 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.Entity;
++
++@Entity
++public class Book extends Item{
++
++    private String author;
++    private String isbn;
++
++    public String getAuthor() {
++        return author;
++    }
++
++    public void setAuthor(String author) {
++        this.author = author;
++    }
++
++    public String getIsbn() {
++        return isbn;
++    }
++
++    public void setIsbn(String isbn) {
++        this.isbn = isbn;
++    }
++}
+Index: ../study/jpashop/.idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/.idea/jarRepositories.xml b/../study/jpashop/.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	(date 1666518794764)
++++ b/../study/jpashop/.idea/jarRepositories.xml	(date 1666518794764)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Central Repository" />
++      <option name="url" value="https://repo.maven.apache.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/Movie.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/Movie.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Movie.java
+new file mode 100644
+--- /dev/null	(date 1667799074964)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Movie.java	(date 1667799074964)
+@@ -0,0 +1,10 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.Entity;
++
++@Entity
++public class Movie extends Item{
++
++    private String director;
++    private String actor;
++}
+Index: src/main/java/project/first/domain/members/MemberRole.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/project/first/domain/members/MemberRole.java b/src/main/java/project/first/domain/members/MemberRole.java
+new file mode 100644
+--- /dev/null	(date 1668244558512)
++++ b/src/main/java/project/first/domain/members/MemberRole.java	(date 1668244558512)
+@@ -0,0 +1,5 @@
++package project.first.domain.members;
++
++public enum MemberRole {
++    USER,ADMIN
++}
+Index: ../study/jpashop/.idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/.idea/encodings.xml b/../study/jpashop/.idea/encodings.xml
+new file mode 100644
+--- /dev/null	(date 1666518794758)
++++ b/../study/jpashop/.idea/encodings.xml	(date 1666518794758)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Encoding">
++    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../study/jpa-basic/src/main/resources/META-INF/persistence.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/resources/META-INF/persistence.xml b/../study/jpa-basic/src/main/resources/META-INF/persistence.xml
+new file mode 100644
+--- /dev/null	(date 1666513605447)
++++ b/../study/jpa-basic/src/main/resources/META-INF/persistence.xml	(date 1666513605447)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<persistence version="2.2"
++             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
++    <persistence-unit name="hello">
++        <properties>
++            <!-- 필수 속성 -->
++            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
++            <property name="javax.persistence.jdbc.user" value="sa"/>
++            <property name="javax.persistence.jdbc.password" value=""/>
++            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/test"/>
++            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
++            <!-- 옵션 -->
++            <property name="hibernate.show_sql" value="true"/>
++            <property name="hibernate.format_sql" value="true"/>
++            <property name="hibernate.use_sql_comments" value="true"/>
++            <property name="hibernate.hbm2ddl.auto" value="create"/>
++        </properties>
++    </persistence-unit>
++</persistence>
+\ No newline at end of file
+Index: src/main/java/project/first/config/SecurityConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/project/first/config/SecurityConfig.java b/src/main/java/project/first/config/SecurityConfig.java
+new file mode 100644
+--- /dev/null	(date 1668244483802)
++++ b/src/main/java/project/first/config/SecurityConfig.java	(date 1668244483802)
+@@ -0,0 +1,25 @@
++package project.first.config;
++
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.security.config.annotation.web.builders.HttpSecurity;
++import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
++import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
++import org.springframework.security.crypto.password.PasswordEncoder;
++import org.springframework.security.web.SecurityFilterChain;
++
++@Configuration
++@EnableWebSecurity
++public class SecurityConfig {
++
++    @Bean
++    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
++
++        return http.build();
++    }
++
++    @Bean
++    public PasswordEncoder passwordEncoder(){
++        return new BCryptPasswordEncoder();
++    }
++}
+Index: ../study/jpashop/src/main/resources/META-INF/persistence.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/resources/META-INF/persistence.xml b/../study/jpashop/src/main/resources/META-INF/persistence.xml
+new file mode 100644
+--- /dev/null	(date 1667025324152)
++++ b/../study/jpashop/src/main/resources/META-INF/persistence.xml	(date 1667025324152)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<persistence version="2.2"
++             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
++    <persistence-unit name="hello">
++        <properties>
++            <!-- 필수 속성 -->
++            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
++            <property name="javax.persistence.jdbc.user" value="sa"/>
++            <property name="javax.persistence.jdbc.password" value=""/>
++            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/jpashop"/>
++            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
++            <!-- 옵션 -->
++            <property name="hibernate.show_sql" value="true"/>
++            <property name="hibernate.format_sql" value="true"/>
++            <property name="hibernate.use_sql_comments" value="true"/>
++            <property name="hibernate.hbm2ddl.auto" value="create"/>
++        </properties>
++    </persistence-unit>
++</persistence>
+\ No newline at end of file
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/Album.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/Album.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Album.java
+new file mode 100644
+--- /dev/null	(date 1667799074959)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Album.java	(date 1667799074959)
+@@ -0,0 +1,26 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.Entity;
++
++@Entity
++public class Album extends Item{
++
++    private String artist;
++    private String etc;
++
++    public String getArtist() {
++        return artist;
++    }
++
++    public void setArtist(String artist) {
++        this.artist = artist;
++    }
++
++    public String getEtc() {
++        return etc;
++    }
++
++    public void setEtc(String etc) {
++        this.etc = etc;
++    }
++}
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/Item.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/Item.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Item.java
+new file mode 100644
+--- /dev/null	(date 1667982004194)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Item.java	(date 1667982004194)
+@@ -0,0 +1,56 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.*;
++
++import java.util.ArrayList;
++import java.util.List;
++
++@Entity
++@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
++@DiscriminatorColumn
++public abstract class Item extends BaseEntity {
++
++    @Id @GeneratedValue
++    @Column(name= "ITEM ID")
++    private Long id;
++
++    private String name;
++
++    private int price;
++    private int stockQuantity;
++
++    @ManyToMany(mappedBy = "items")
++    private List<Category> categories = new ArrayList<>();
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public int getPrice() {
++        return price;
++    }
++
++    public void setPrice(int price) {
++        this.price = price;
++    }
++
++    public int getStockQuantity() {
++        return stockQuantity;
++    }
++
++    public void setStockQuantity(int stockQuantity) {
++        this.stockQuantity = stockQuantity;
++    }
++}
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/BaseEntity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/BaseEntity.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/BaseEntity.java
+new file mode 100644
+--- /dev/null	(date 1667799505288)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/BaseEntity.java	(date 1667799505288)
+@@ -0,0 +1,50 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.Column;
++import jakarta.persistence.MappedSuperclass;
++
++import java.time.LocalDateTime;
++
++@MappedSuperclass
++public abstract class BaseEntity {
++
++    @Column(name = "INSERT_MEMBER")
++    private String createdBy;
++    private LocalDateTime createdDate;
++
++    @Column(name = "UPDATE_MEMBER")
++    private String lastModifiedBy;
++    private LocalDateTime lastModifiedDate;
++
++    public String getCreatedBy() {
++        return createdBy;
++    }
++
++    public void setCreatedBy(String createdBy) {
++        this.createdBy = createdBy;
++    }
++
++    public LocalDateTime getCreatedDate() {
++        return createdDate;
++    }
++
++    public void setCreatedDate(LocalDateTime createdDate) {
++        this.createdDate = createdDate;
++    }
++
++    public String getLastModifiedBy() {
++        return lastModifiedBy;
++    }
++
++    public void setLastModifiedBy(String lastModifiedBy) {
++        this.lastModifiedBy = lastModifiedBy;
++    }
++
++    public LocalDateTime getLastModifiedDate() {
++        return lastModifiedDate;
++    }
++
++    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
++        this.lastModifiedDate = lastModifiedDate;
++    }
++}
+\ No newline at end of file
+Index: ../study/jpa-basic/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <groupId>org.example</groupId>\n    <artifactId>jpa-basic</artifactId>\n    <version>1.0-SNAPSHOT</version>\n\n    <properties>\n        <maven.compiler.source>11</maven.compiler.source>\n        <maven.compiler.target>11</maven.compiler.target>\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n    </properties>\n\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/pom.xml b/../study/jpa-basic/pom.xml
+--- a/../study/jpa-basic/pom.xml	(revision c757434aa319c1eee5ad6f893c8c5e0210146a81)
++++ b/../study/jpa-basic/pom.xml	(date 1666258070519)
+@@ -4,8 +4,8 @@
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+-    <groupId>org.example</groupId>
+-    <artifactId>jpa-basic</artifactId>
++    <groupId>jpa-basic</groupId>
++    <artifactId>ex1-hello-jpa</artifactId>
+     <version>1.0-SNAPSHOT</version>
+ 
+     <properties>
+@@ -14,4 +14,22 @@
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
++    <dependencies>
++        <!-- JPA 하이버네이트 -->
++        <dependency>
++            <groupId>org.hibernate</groupId>
++            <artifactId>hibernate-core</artifactId>
++            <version>6.1.4.Final</version>
++        </dependency>
++
++        <!-- H2 데이터베이스 -->
++        <dependency>
++            <groupId>com.h2database</groupId>
++            <artifactId>h2</artifactId>
++            <version>2.1.214</version>
++        </dependency>
++
++    </dependencies>
++
++
+ </project>
+\ No newline at end of file
+Index: src/main/java/project/first/domain/members/Member.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/project/first/domain/members/Member.java b/src/main/java/project/first/domain/members/Member.java
+new file mode 100644
+--- /dev/null	(date 1668245785258)
++++ b/src/main/java/project/first/domain/members/Member.java	(date 1668245785258)
+@@ -0,0 +1,51 @@
++package project.first.domain.members;
++
++import lombok.Builder;
++import lombok.Getter;
++import lombok.NoArgsConstructor;
++import org.springframework.security.crypto.password.PasswordEncoder;
++import project.first.web.dto.MemberFormDto;
++
++import javax.persistence.*;
++
++@NoArgsConstructor
++@Getter
++@Table(name = "member")
++@Entity
++public class Member {
++
++    @Id @GeneratedValue(strategy = GenerationType.AUTO)
++    @Column(name = "member_id")
++    private Long id;
++
++    private String name;
++
++    @Column(unique = true)
++    private String email;
++
++    private String password;
++
++    private String address;
++
++    @Enumerated(EnumType.STRING)
++    private MemberRole role;
++
++    @Builder
++    public Member(String name, String email,String password,String address,MemberRole role){
++        this.name = name;
++        this.email = email;
++        this.password = password;
++        this.role = role;
++    }
++
++    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
++        Member member = Member.builder()
++                .name(memberFormDto.getName())
++                .email(memberFormDto.getEmail())
++                .address(memberFormDto.getAddress())
++                .password(passwordEncoder.encode(memberFormDto.getPassword())) // 암호화 처리
++                .role(MemberRole.USER)
++                .build();
++        return member;
++    }
++}
+Index: ../study/jpa-basic/src/main/java/hellojpa/JpaMain.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/JpaMain.java b/../study/jpa-basic/src/main/java/hellojpa/JpaMain.java
+new file mode 100644
+--- /dev/null	(date 1667987267201)
++++ b/../study/jpa-basic/src/main/java/hellojpa/JpaMain.java	(date 1667987267201)
+@@ -0,0 +1,56 @@
++package hellojpa;
++
++import jakarta.persistence.EntityManager;
++import jakarta.persistence.EntityManagerFactory;
++import jakarta.persistence.EntityTransaction;
++import jakarta.persistence.Persistence;
++
++import java.time.LocalDate;
++import java.time.LocalDateTime;
++import java.util.List;
++
++public class JpaMain {
++
++    public static void main(String[] args) {
++        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
++
++        EntityManager em = emf.createEntityManager();
++
++        EntityTransaction tx = em.getTransaction();
++        tx.begin();
++
++        try{
++            Team team = new Team();
++            team.setName("teamA");
++            em.persist(team);
++
++            Member member1 = new Member();
++            member1.setUsername("member1");
++            member1.setTeam(team);
++            em.persist(member1);
++
++            em.flush();
++            em.clear();
++
++            Member m = em.find(Member.class, member1.getId());
++
++            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass());
++
++            String memberTeam = m.getTeam().getName();
++
++            System.out.println("memberTeam = " + memberTeam);
++
++            System.out.println("m.getTeam().getClass()22 = " + m.getTeam().getClass());
++
++            tx.commit();
++        }catch(Exception e ){
++            tx.rollback();
++            e.printStackTrace();
++        }finally{
++            em.close();
++        }
++
++        emf.close();
++    }
++    
++}
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/OrderItem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/OrderItem.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/OrderItem.java
+new file mode 100644
+--- /dev/null	(date 1667799564683)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/OrderItem.java	(date 1667799564683)
+@@ -0,0 +1,63 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.*;
++
++@Entity
++public class OrderItem extends BaseEntity{
++
++    @Id @GeneratedValue
++    @Column(name = "ORDER_ITEM_ID")
++    private Long id;
++
++    @ManyToOne
++    @JoinColumn(name = "ORDER_ID")
++    private Order order;
++
++    @ManyToOne
++    @JoinColumn(name = "ITEM_ID")
++    private Item item;
++
++    private int orderPrice;
++    private int count;
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public Order getOrder() {
++        return order;
++    }
++
++    public void setOrder(Order order) {
++        this.order = order;
++    }
++
++    public Item getItem() {
++        return item;
++    }
++
++    public void setItem(Item item) {
++        this.item = item;
++    }
++
++    public int getOrderPrice() {
++        return orderPrice;
++    }
++
++    public void setOrderPrice(int orderPrice) {
++        this.orderPrice = orderPrice;
++    }
++
++    public int getCount() {
++        return count;
++    }
++
++    public void setCount(int count) {
++        this.count = count;
++    }
++
++}
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/Order.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/Order.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Order.java
+new file mode 100644
+--- /dev/null	(date 1667799564688)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Order.java	(date 1667799564688)
+@@ -0,0 +1,72 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.*;
++
++import java.time.LocalDateTime;
++import java.util.ArrayList;
++import java.util.List;
++
++@Entity
++@Table (name = "ORDERS")
++public class Order extends BaseEntity{
++
++    @Id
++    @GeneratedValue
++    @Column(name = "ORDER_ID")
++    private Long id;
++
++    @ManyToOne
++    @JoinColumn(name = "MEMBER_ID")
++    private Member member;
++
++    @OneToOne
++    @JoinColumn(name = "DELIVERY_ID")
++    private Delivery delivery;
++
++    @OneToMany(mappedBy = "order")
++    private List<OrderItem> orderItems = new ArrayList<>();
++
++    private LocalDateTime orderDate;
++
++    @Enumerated(EnumType.STRING)
++    private OrderStatus status;
++
++
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public Member getMember() {
++        return member;
++    }
++
++    public void setMember(Member member) {
++        this.member = member;
++    }
++
++    public LocalDateTime getOrderDate() {
++        return orderDate;
++    }
++
++    public void setOrderDate(LocalDateTime orderDate) {
++        this.orderDate = orderDate;
++    }
++
++    public OrderStatus getStatus() {
++        return status;
++    }
++
++    public void setStatus(OrderStatus status) {
++        this.status = status;
++    }
++
++    public void addOrderItem(OrderItem orderItem) {
++        orderItems.add(orderItem);
++        orderItem.setOrder(this);
++    }
++}
+Index: src/main/java/project/first/domain/members/MemberRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/project/first/domain/members/MemberRepository.java b/src/main/java/project/first/domain/members/MemberRepository.java
+new file mode 100644
+--- /dev/null	(date 1668245785251)
++++ b/src/main/java/project/first/domain/members/MemberRepository.java	(date 1668245785251)
+@@ -0,0 +1,7 @@
++package project.first.domain.members;
++
++import org.springframework.data.jpa.repository.JpaRepository;
++
++public interface MemberRepository extends JpaRepository<Member,Long> {
++    Member findByEmail(String email);
++}
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/Member.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/Member.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Member.java
+new file mode 100644
+--- /dev/null	(date 1667799564685)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/Member.java	(date 1667799564685)
+@@ -0,0 +1,62 @@
++package jpabook.jpashop.domain;
++
++import jakarta.persistence.*;
++
++import java.util.ArrayList;
++import java.util.List;
++
++@Entity
++public class Member extends BaseEntity{
++
++    @Id @GeneratedValue
++    @Column(name = "MEMBER_ID")
++    private Long id;
++    private String name;
++    private String city;
++    private String street;
++    private String zipcode;
++
++    @OneToMany(mappedBy = "member")
++    private List<Order> orders = new ArrayList<>();
++
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public String getCity() {
++        return city;
++    }
++
++    public void setCity(String city) {
++        this.city = city;
++    }
++
++    public String getStreet() {
++        return street;
++    }
++
++    public void setStreet(String street) {
++        this.street = street;
++    }
++
++    public String getZipcode() {
++        return zipcode;
++    }
++
++    public void setZipcode(String zipcode) {
++        this.zipcode = zipcode;
++    }
++}
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/JpaMain.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/JpaMain.java b/../study/jpashop/src/main/java/jpabook/jpashop/JpaMain.java
+new file mode 100644
+--- /dev/null	(date 1667982004200)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/JpaMain.java	(date 1667982004200)
+@@ -0,0 +1,32 @@
++package jpabook.jpashop;
++
++import jakarta.persistence.EntityManager;
++import jakarta.persistence.EntityManagerFactory;
++import jakarta.persistence.EntityTransaction;
++import jakarta.persistence.Persistence;
++import jpabook.jpashop.domain.Book;
++import jpabook.jpashop.domain.Order;
++import jpabook.jpashop.domain.OrderItem;
++
++public class JpaMain {
++    public static void main(String[] args){
++        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
++        EntityManager em = emf.createEntityManager();
++        EntityTransaction tx = em.getTransaction();
++        tx.begin();
++
++        try{
++
++
++
++            tx.commit();
++        }catch(Exception e ){
++            tx.rollback();
++        }finally {
++            em.close();
++        }
++
++        emf.close();
++    }
++
++}
+Index: ../study/jpashop/src/main/java/jpabook/jpashop/domain/OrderStatus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpashop/src/main/java/jpabook/jpashop/domain/OrderStatus.java b/../study/jpashop/src/main/java/jpabook/jpashop/domain/OrderStatus.java
+new file mode 100644
+--- /dev/null	(date 1667022869937)
++++ b/../study/jpashop/src/main/java/jpabook/jpashop/domain/OrderStatus.java	(date 1667022869937)
+@@ -0,0 +1,5 @@
++package jpabook.jpashop.domain;
++
++public enum OrderStatus {
++    ORDER,CANCEL
++}
+Index: ../study/jpa-basic/src/main/java/hellojpa/Member.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/Member.java b/../study/jpa-basic/src/main/java/hellojpa/Member.java
+new file mode 100644
+--- /dev/null	(date 1667987648100)
++++ b/../study/jpa-basic/src/main/java/hellojpa/Member.java	(date 1667987648100)
+@@ -0,0 +1,71 @@
++package hellojpa;
++
++import jakarta.persistence.*;
++
++import java.time.LocalDate;
++import java.time.LocalDateTime;
++import java.util.ArrayList;
++import java.util.Date;
++import java.util.List;
++import java.util.logging.Logger;
++
++@Entity //jpa를 사용하는 애인지 확인 가능함
++public class Member extends BaseEntity{
++
++   @Id @GeneratedValue
++   @Column(name = "MEMBER_ID")
++   private Long id;
++
++   @Column(name = "USERNAME", nullable = false)
++   private String username;
++
++//   @Column(name = "TEAM_ID")
++//   private Long teamId;
++
++   @ManyToOne(fetch = FetchType.LAZY) // proxy 클래스로 만들고, Member만 호출하고 team은 호출안함
++   @JoinColumn(name = "TEAM_ID")
++   private Team team;
++
++   @OneToMany(mappedBy = "member")
++   private List<MemberProduct> memberproducts = new ArrayList<>();
++
++
++
++   public Long getId() {
++      return id;
++   }
++
++   public void setId(Long id) {
++      this.id = id;
++   }
++
++   public String getUsername() {
++      return username;
++   }
++
++   public void setUsername(String username) {
++      this.username = username;
++   }
++
++   public Team getTeam() {
++      return team;
++   }
++
++   public void setTeam(Team team) {
++      this.team = team;
++   }
++
++   @Override
++   public String toString() {
++      return "Member{" +
++              "id=" + id +
++              ", username='" + username + '\'' +
++              ", team=" + team +
++              '}';
++   }
++
++   //   public void changeTeam(Team team) {
++//      this.team = team;
++//      team.getMembers().add(this);
++//   }
++}
+\ No newline at end of file
+Index: src/main/java/project/first/web/MemberController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/project/first/web/MemberController.java b/src/main/java/project/first/web/MemberController.java
+new file mode 100644
+--- /dev/null	(date 1668247038717)
++++ b/src/main/java/project/first/web/MemberController.java	(date 1668247038717)
+@@ -0,0 +1,36 @@
++package project.first.web;
++
++import lombok.RequiredArgsConstructor;
++import org.springframework.security.crypto.password.PasswordEncoder;
++import org.springframework.stereotype.Controller;
++import org.springframework.ui.Model;
++import org.springframework.validation.BindingResult;
++import org.springframework.web.bind.annotation.GetMapping;
++import org.springframework.web.bind.annotation.PostMapping;
++import org.springframework.web.bind.annotation.RequestMapping;
++import project.first.service.MemberService;
++import project.first.web.dto.MemberFormDto;
++
++import javax.validation.Valid;
++
++@RequiredArgsConstructor
++@RequestMapping("/members")
++@Controller
++public class MemberController {
++
++    private final MemberService memberService;
++    private final PasswordEncoder passwordEncoder;
++
++    @GetMapping("/new")
++    public String memberForm(Model model){
++        model.addAttribute("memberFormDto",new MemberFormDto());
++        return "member/memberForm";
++    }
++
++    @PostMapping("/new")
++    public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult,Model model){
++        if(bindingResult.hasErrors()){
++            return "member/memberForm"
++        }
++    }
++}
+Index: src/main/java/project/first/service/MemberService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/project/first/service/MemberService.java b/src/main/java/project/first/service/MemberService.java
+new file mode 100644
+--- /dev/null	(date 1668246585741)
++++ b/src/main/java/project/first/service/MemberService.java	(date 1668246585741)
+@@ -0,0 +1,28 @@
++package project.first.service;
++
++import lombok.RequiredArgsConstructor;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++import project.first.domain.members.Member;
++import project.first.domain.members.MemberRepository;
++
++@Transactional //로직을 처리하다가 에러가 발생하면 변경된 데이터 수행 이전 상태로 롤백시켜줌.
++@RequiredArgsConstructor
++@Service
++public class MemberService {
++
++    private final MemberRepository memberRepository;
++
++    public Member saveMember(Member member){
++        validateDuplicateMember(member);
++
++        return memberRepository.save(member);
++    }
++
++    private void validateDuplicateMember(Member member){
++        Member findMember = memberRepository.findByEmail(member.getEmail());
++        if(findMember != null){
++            throw new IllegalArgumentException("이미 가입된 회원입니다.");
++        }
++    }
++}
+Index: src/test/java/project/first/service/MemberServiceTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/project/first/service/MemberServiceTest.java b/src/test/java/project/first/service/MemberServiceTest.java
+new file mode 100644
+--- /dev/null	(date 1668246716437)
++++ b/src/test/java/project/first/service/MemberServiceTest.java	(date 1668246716437)
+@@ -0,0 +1,46 @@
++package project.first.service;
++
++import org.assertj.core.api.Assertions;
++import org.junit.jupiter.api.DisplayName;
++import org.junit.jupiter.api.Test;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.boot.test.context.SpringBootTest;
++import org.springframework.security.crypto.password.PasswordEncoder;
++import org.springframework.transaction.annotation.Transactional;
++import project.first.domain.members.Member;
++import project.first.domain.members.MemberRepository;
++import project.first.web.dto.MemberFormDto;
++
++@SpringBootTest
++@Transactional
++public class MemberServiceTest {
++
++    @Autowired
++    MemberService memberService;
++
++    @Autowired
++    PasswordEncoder passwordEncoder;
++
++    @Autowired
++    MemberRepository memberRepository;
++
++    public Member createMember(){
++        MemberFormDto memberFormDto = MemberFormDto.builder()
++                .email("livm211@naver.com")
++                .name("정영화")
++                .address("부산시 남구 감만동")
++                .password("1234")
++                .build();
++        return Member.createMember(memberFormDto,passwordEncoder);
++    }
++
++    @Test
++    @DisplayName("회원가입 테스트")
++    public void saveMemberTest(){
++        Member member = createMember();
++        Member savedMember = memberService.saveMember(member);
++
++        Assertions.assertThat(member.getEmail()).isEqualTo(savedMember.getEmail());
++
++    }
++}
+Index: ../study/jpa-basic/src/main/java/hellojpa/RoleType.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/RoleType.java b/../study/jpa-basic/src/main/java/hellojpa/RoleType.java
+new file mode 100644
+--- /dev/null	(date 1666442532856)
++++ b/../study/jpa-basic/src/main/java/hellojpa/RoleType.java	(date 1666442532856)
+@@ -0,0 +1,5 @@
++package hellojpa;
++
++public enum RoleType {
++    USER, ADMIN
++}
+Index: src/main/java/project/first/web/dto/MemberFormDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/project/first/web/dto/MemberFormDto.java b/src/main/java/project/first/web/dto/MemberFormDto.java
+new file mode 100644
+--- /dev/null	(date 1668245167022)
++++ b/src/main/java/project/first/web/dto/MemberFormDto.java	(date 1668245167022)
+@@ -0,0 +1,38 @@
++package project.first.web.dto;
++
++import lombok.Builder;
++import lombok.Getter;
++import lombok.NoArgsConstructor;
++import org.hibernate.validator.constraints.Length;
++
++import javax.validation.constraints.Email;
++import javax.validation.constraints.NotBlank;
++import javax.validation.constraints.NotEmpty;
++
++@NoArgsConstructor
++@Getter
++public class MemberFormDto {
++
++    @NotBlank(message = "이름은 필수 입력값입니다.")
++    private String name;
++
++    @NotEmpty(message = "이메일은 필수 입력값입니다.")
++    @Email(message = "이메일 형식으로 입력해주세요.")
++    private String email;
++
++    @NotEmpty(message = "비밀번호는 필수 입력값입니다.")
++    @Length(min = 4,max = 16,message = "비밀번호는 4자 이상, 16자 이하로 입력해주세요.")
++    private String password;
++
++    @NotEmpty(message = "주소는 필수 입력값입니다.")
++    private String address;
++
++    @Builder
++    public MemberFormDto(String name, String email, String password,String address){
++        this.name = name;
++        this.email = email;
++        this.password = password;
++        this.address = address;
++    }
++
++}
+Index: ../study/jpabook/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpabook/pom.xml b/../study/jpabook/pom.xml
+new file mode 100644
+--- /dev/null	(date 1666518476774)
++++ b/../study/jpabook/pom.xml	(date 1666518476774)
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>org.example</groupId>
++    <artifactId>jpabook</artifactId>
++    <version>1.0-SNAPSHOT</version>
++
++    <properties>
++        <maven.compiler.source>11</maven.compiler.source>
++        <maven.compiler.target>11</maven.compiler.target>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++
++</project>
+\ No newline at end of file
+Index: ../study/jpa-basic/.idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"CompilerConfiguration\">\n    <annotationProcessing>\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\n        <outputRelativeToContentRoot value=\"true\" />\n        <module name=\"jpa-basic\" />\n      </profile>\n    </annotationProcessing>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/.idea/compiler.xml b/../study/jpa-basic/.idea/compiler.xml
+--- a/../study/jpa-basic/.idea/compiler.xml	(revision c757434aa319c1eee5ad6f893c8c5e0210146a81)
++++ b/../study/jpa-basic/.idea/compiler.xml	(date 1666518794662)
+@@ -6,7 +6,7 @@
+         <sourceOutputDir name="target/generated-sources/annotations" />
+         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+         <outputRelativeToContentRoot value="true" />
+-        <module name="jpa-basic" />
++        <module name="ex1-hello-jpa" />
+       </profile>
+     </annotationProcessing>
+   </component>
+Index: ../study/jpabook/jpashop.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpabook/jpashop.iml b/../study/jpabook/jpashop.iml
+new file mode 100644
+--- /dev/null	(date 1666518741176)
++++ b/../study/jpabook/jpashop.iml	(date 1666518741176)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$" />
++    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+Index: ../study/jpa-basic/src/main/java/hellojpa/MemberProduct.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/MemberProduct.java b/../study/jpa-basic/src/main/java/hellojpa/MemberProduct.java
+new file mode 100644
+--- /dev/null	(date 1667983892648)
++++ b/../study/jpa-basic/src/main/java/hellojpa/MemberProduct.java	(date 1667983892648)
+@@ -0,0 +1,25 @@
++package hellojpa;
++
++import jakarta.persistence.*;
++
++import java.time.LocalDateTime;
++
++@Entity
++public class MemberProduct {
++
++    @Id @GeneratedValue
++    private Long id;
++
++    @ManyToOne
++    @JoinColumn(name = "MEMBER_ID")
++    private Member member;
++
++    @ManyToOne
++    @JoinColumn(name = "PRODUCT_ID")
++    private Product product;
++
++    private int count;
++    private int price;
++
++    private LocalDateTime orderDateTime;
++}
+Index: ../study/jpa-basic/src/main/java/hellojpa/Product.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/Product.java b/../study/jpa-basic/src/main/java/hellojpa/Product.java
+new file mode 100644
+--- /dev/null	(date 1667366728094)
++++ b/../study/jpa-basic/src/main/java/hellojpa/Product.java	(date 1667366728094)
+@@ -0,0 +1,37 @@
++package hellojpa;
++
++import jakarta.persistence.Entity;
++import jakarta.persistence.GeneratedValue;
++import jakarta.persistence.Id;
++import jakarta.persistence.OneToMany;
++
++import java.util.ArrayList;
++import java.util.List;
++
++@Entity
++public class Product {
++
++    @Id @GeneratedValue
++    private Long id;
++
++    private String name;
++
++    @OneToMany(mappedBy = "product")
++    private List<MemberProduct> memberProducts = new ArrayList<>();
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++}
+Index: ../study/jpa-basic/src/main/java/hellojpa/Team.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../study/jpa-basic/src/main/java/hellojpa/Team.java b/../study/jpa-basic/src/main/java/hellojpa/Team.java
+new file mode 100644
+--- /dev/null	(date 1667796363699)
++++ b/../study/jpa-basic/src/main/java/hellojpa/Team.java	(date 1667796363699)
+@@ -0,0 +1,52 @@
++package hellojpa;
++
++import jakarta.persistence.*;
++
++import java.util.ArrayList;
++import java.util.List;
++
++@Entity
++
++public class Team extends BaseEntity{
++
++    @Id  @GeneratedValue
++    @Column(name = "TEAM_ID")
++    private Long id;
++    private String name;
++
++    @OneToMany(mappedBy = "team")
++    private List<Member> members = new ArrayList<>();
++
++    public void addMember(Member member) {
++        member.setTeam(this);
++        members.add(member);
++    }
++
++    public Team() {
++    }
++
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public List<Member> getMembers() {
++        return members;
++    }
++
++    public void setMembers(List<Member> members) {
++        this.members = members;
++    }
++
++}
