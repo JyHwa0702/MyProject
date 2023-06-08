@@ -28,8 +28,9 @@ public class SummonerService {
     private final String serverUrl =  "https://kr.api.riotgames.com";
     @Transactional
     public SummonerDto callRiotAPISummonerByName(String summonerName){
-        summonerName.replaceAll(" ","%20"); //빈공간 %20으로 바꾸기
-
+        System.out.println("summonerName = "+summonerName);
+        summonerName = summonerName.replaceAll(" ", "%20");//빈공간 %20으로 바꾸기
+        System.out.println("summonerName.replace = "+summonerName);
         SummonerDto result;
 
         try{

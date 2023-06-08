@@ -36,6 +36,7 @@ public class MainController {
 
     @PostMapping("/searchBySummonerName")
     public String SearchByName(String summonerName, Model model){
+        log.info(summonerName);
         UserDto userDto = mainService.SearchBySummonerName(summonerName,model);
         mainService.showRankedEmblemByTier(userDto.getTier(),model);
         mainService.showProfileIconUrlByUserDto(userDto,model);//프로필 아이콘 표시
