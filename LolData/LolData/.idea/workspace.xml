@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9e0590f2-b28b-47cc-b044-58d768251607" name="Changes" comment="&lt;한 것&gt;&#10;1.엠블럼 사이즈 조정&#10;2.아이디 전적검색시 띄어쓰기 있을 경우 에러나는 거 수정&#10;3.아이템 보유 안하고 있을시 noItem.png 이미지 표시&#10;4.searchForm.html에 id랑 class 부여, 게임 패배 및 승리시 화면표출 색깔 표현&#10;5.전적검색 각 css 구현&#10;&#10;&lt;해야할 것&gt;&#10;1.전적 검색한 아이디 시즌별 티어, 모스트챔피언 표시&#10;2.match-history 내 상세페이지 표현, 플레이 시간 표시&#10;3.카카오톡 또는 문자 연동" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="LolData" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="LolData" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="LolData" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+                <item name="compileClasspath" type="62daadca:ExternalSystemViewDefaultContributor$DependencyScopeExternalSystemNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2QF7wfcORpFJfUPU3r4vDjFgHrI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jeong-yeonghwa/Desktop/git/LolData/LolData/src/main/resources/static/images/RankedEmblem&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="JyHwa.LolData.Dto.LeagueEntryDto" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/static/images/RankedEmblem" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static/RankedEmblem" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/static/images/item" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static/images" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="LolDataApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="JyHwa.LolData.LolDataApplication" />
+      <module name="LolData.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="JyHwa.LolData.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="애플리케이션.LolDataApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9e0590f2-b28b-47cc-b044-58d768251607" name="Changes" comment="" />
+      <created>1684937715338</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1684937715338</updated>
+    </task>
+    <task id="LOCAL-00001" summary="1.JPA연동(H2 Database)&#10;2.MainController를 통하여 사용자 검색Controller 구현&#10;3.League 정보 호출 APICONtroller 구현">
+      <created>1685010854687</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1685010854687</updated>
+    </task>
+    <task id="LOCAL-00002" summary="1.JPA연동(H2 Database)&#10;2.MainController를 통하여 사용자 검색Controller 구현&#10;3.League 정보 호출 APICONtroller 구현">
+      <created>1685010868282</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1685010868282</updated>
+    </task>
+    <task id="LOCAL-00003" summary="1.JPA연동(H2 Database)&#10;2.MainController를 통하여 사용자 검색Controller 구현&#10;3.League 정보 호출 APICONtroller 구현">
+      <created>1685010879025</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1685010879025</updated>
+    </task>
+    <task id="LOCAL-00004" summary="1. 티어별 엠블럼 추가&#10;2. User 받아오는 거 언랭시 에러나는 거 언랭적용&#10;3. 아이디,레벨,등급,승패,티어그림 표시완료">
+      <created>1685099510439</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1685099510439</updated>
+    </task>
+    <task id="LOCAL-00005" summary="폴더 이름 바꾸기 OauthLogin&amp;Logout_Board,LoLData">
+      <created>1685449012963</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1685449012963</updated>
+    </task>
+    <task id="LOCAL-00006" summary="롤 스펠 이미지표시 하다가 말음.. html 타임리프에서 표현하는 방법찾기">
+      <created>1685635631247</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1685635631247</updated>
+    </task>
+    <task id="LOCAL-00007" summary="1.스펠 이미지 표현 완료&#10;&#10;2.챔피언 이미지, 룬 이미지, 아이템 이미지 구현필요&#10;(json 데이터 불러오기 구현 및 이미지 불러오기)">
+      <created>1685765260952</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1685765260952</updated>
+    </task>
+    <task id="LOCAL-00008" summary="1. 스펠이미지 완료&#10;2. 챔피언 이미지 완료&#10;3. 아이템 이미지 완료.&#10;&#10;해야할것 :&#10;룬 이미지 표현하기&#10;상세페이지 표현하기">
+      <created>1685868388271</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1685868388271</updated>
+    </task>
+    <task id="LOCAL-00009" summary="get main,subRuneImageUrlByKey 계속 NUll값나옴.. 로직 확인필요&#10;&#10;mainRuneKey 상세하기 뽑기, subRuneKey값처럼 나옴">
+      <created>1685957733210</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1685957733210</updated>
+    </task>
+    <task id="LOCAL-00010" summary="get main,subRuneImageUrlByKey 계속 NUll값나옴.. 로직 확인필요&#10;&#10;mainRuneKey 상세하기 뽑기, subRuneKey값처럼 나옴">
+      <created>1686034269696</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1686034269696</updated>
+    </task>
+    <task id="LOCAL-00011" summary="&lt;한 것&gt;&#10;1.엠블럼 사이즈 조정&#10;2.아이디 전적검색시 띄어쓰기 있을 경우 에러나는 거 수정&#10;3.아이템 보유 안하고 있을시 noItem.png 이미지 표시&#10;4.searchForm.html에 id랑 class 부여, 게임 패배 및 승리시 화면표출 색깔 표현&#10;5.전적검색 각 css 구현&#10;&#10;&lt;해야할 것&gt;&#10;1.전적 검색한 아이디 시즌별 티어, 모스트챔피언 표시&#10;2.match-history 내 상세페이지 표현, 플레이 시간 표시&#10;3.카카오톡 또는 문자 연동">
+      <created>1686163031806</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1686163031806</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1.JPA연동(H2 Database)&#10;2.MainController를 통하여 사용자 검색Controller 구현&#10;3.League 정보 호출 APICONtroller 구현" />
+    <MESSAGE value="1. 티어별 엠블럼 추가&#10;2. User 받아오는 거 언랭시 에러나는 거 언랭적용&#10;3. 아이디,레벨,등급,승패,티어그림 표시완료" />
+    <MESSAGE value="폴더 이름 바꾸기 OauthLogin&amp;Logout_Board,LoLData" />
+    <MESSAGE value="롤 스펠 이미지표시 하다가 말음.. html 타임리프에서 표현하는 방법찾기" />
+    <MESSAGE value="1.스펠 이미지 표현 완료&#10;&#10;2.챔피언 이미지, 룬 이미지, 아이템 이미지 구현필요&#10;(json 데이터 불러오기 구현 및 이미지 불러오기)" />
+    <MESSAGE value="1. 스펠이미지 완료&#10;2. 챔피언 이미지 완료&#10;3. 아이템 이미지 완료.&#10;&#10;해야할것 :&#10;룬 이미지 표현하기&#10;상세페이지 표현하기" />
+    <MESSAGE value="get main,subRuneImageUrlByKey 계속 NUll값나옴.. 로직 확인필요&#10;&#10;mainRuneKey 상세하기 뽑기, subRuneKey값처럼 나옴" />
+    <MESSAGE value="&lt;한 것&gt;&#10;1.엠블럼 사이즈 조정&#10;2.아이디 전적검색시 띄어쓰기 있을 경우 에러나는 거 수정&#10;3.아이템 보유 안하고 있을시 noItem.png 이미지 표시&#10;4.searchForm.html에 id랑 class 부여, 게임 패배 및 승리시 화면표출 색깔 표현&#10;5.전적검색 각 css 구현&#10;&#10;&lt;해야할 것&gt;&#10;1.전적 검색한 아이디 시즌별 티어, 모스트챔피언 표시&#10;2.match-history 내 상세페이지 표현, 플레이 시간 표시&#10;3.카카오톡 또는 문자 연동" />
+    <option name="LAST_COMMIT_MESSAGE" value="&lt;한 것&gt;&#10;1.엠블럼 사이즈 조정&#10;2.아이디 전적검색시 띄어쓰기 있을 경우 에러나는 거 수정&#10;3.아이템 보유 안하고 있을시 noItem.png 이미지 표시&#10;4.searchForm.html에 id랑 class 부여, 게임 패배 및 승리시 화면표출 색깔 표현&#10;5.전적검색 각 css 구현&#10;&#10;&lt;해야할 것&gt;&#10;1.전적 검색한 아이디 시즌별 티어, 모스트챔피언 표시&#10;2.match-history 내 상세페이지 표현, 플레이 시간 표시&#10;3.카카오톡 또는 문자 연동" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/JyHwa/LolData/Service/MatchService.java</url>
+          <line>183</line>
+          <properties class="JyHwa.LolData.Service.MatchService">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/JyHwa/LolData/Service/MainService.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
