@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e0590f2-b28b-47cc-b044-58d768251607" name="Changes" comment="&lt;한 것&gt;&#10;1.엠블럼 사이즈 조정&#10;2.아이디 전적검색시 띄어쓰기 있을 경우 에러나는 거 수정&#10;3.아이템 보유 안하고 있을시 noItem.png 이미지 표시&#10;4.searchForm.html에 id랑 class 부여, 게임 패배 및 승리시 화면표출 색깔 표현&#10;5.전적검색 각 css 구현&#10;&#10;&lt;해야할 것&gt;&#10;1.전적 검색한 아이디 시즌별 티어, 모스트챔피언 표시&#10;2.match-history 내 상세페이지 표현, 플레이 시간 표시&#10;3.카카오톡 또는 문자 연동" />
+    <list default="true" id="b6c33ad7-901e-4084-a4dd-ad1f0b204535" name="Changes" comment="1.403에러나서 접음&#10;2.룬제대로 다나옴&#10;3. CSS건들여야함">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,18 +81,18 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/jeong-yeonghwa/Desktop/git/LolData/LolData/src/main/resources/static/images/RankedEmblem&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/livm2/Desktop/github/LOL_Data_Search/build.gradle",
+    "project.structure.last.edited": "프로젝트",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="JyHwa.LolData.Dto.LeagueEntryDto" />
@@ -118,16 +120,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="애플리케이션.LolDataApplication" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="9e0590f2-b28b-47cc-b044-58d768251607" name="Changes" comment="" />
+      <changelist id="b6c33ad7-901e-4084-a4dd-ad1f0b204535" name="Changes" comment="1.403에러나서 접음&#10;2.룬제대로 다나옴&#10;3. CSS건들여야함" />
       <created>1684937715338</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
